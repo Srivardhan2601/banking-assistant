@@ -9,6 +9,7 @@ import os
 import json
 import urllib.request
 import urllib.error
+from urllib.parse import quote
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
@@ -23,7 +24,7 @@ if ENV_PATH.exists():
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
-                os.environ[k.strip()] = v.strip()
+                os.environ.setdefault(k.strip(), v.strip())
 
 
 class HindsightClient:
@@ -36,6 +37,9 @@ class HindsightClient:
     def __init__(self):
         self.api_key = os.getenv("HINDSIGHT_API_KEY")
         self.endpoint = os.getenv("HINDSIGHT_ENDPOINT", "https://api.hindsight.vectorize.io").rstrip("/")
+        if self.endpoint.endswith("/v1"):
+            self.endpoint = self.endpoint[:-3]
+        self.agent_bank_id = os.getenv("HINDSIGHT_AGENT_BANK_ID", "My AI Assistent").strip()
         self.is_live = bool(self.api_key and self.api_key.startswith("hsk_"))
         self._local_banks: Dict[str, CustomerMemoryBank] = {}
         self._initialize_from_mock_db()
@@ -44,6 +48,28 @@ class HindsightClient:
         """Standardized Hindsight Cloud memory bank identifier per customer."""
         clean_cid = customer_id.lower().replace("_", "-")
         return f"banking-{clean_cid}"
+
+    def _recall_cloud_bank(self, bank_id: str, query: str) -> List[str]:
+        """Recall text memories from a Hindsight Cloud bank."""
+        recall_url = f"{self.endpoint}/v1/default/banks/{quote(bank_id, safe='')}/memories/recall"
+        payload = json.dumps({"query": query}).encode("utf-8")
+        req = urllib.request.Request(
+            recall_url,
+            data=payload,
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=1.5) as response:
+            if response.status != 200:
+                return []
+            data = json.loads(response.read().decode("utf-8"))
+        return [
+            str(text)
+            for item in data.get("results", [])
+            if (text := item.get("text") or item.get("content"))
+        ]
 
     def _initialize_from_mock_db(self) -> None:
         """Seeds local memory banks using verified customer baseline records."""
@@ -122,34 +148,24 @@ class HindsightClient:
             self._local_banks[customer_id] = bank
 
         cloud_memories: List[str] = []
+        agent_knowledge: List[str] = []
 
         # If live Hindsight Cloud API is active, query the cloud bank
         if self.is_live and query:
             try:
                 bank_id = self._bank_id_for(customer_id)
-                recall_url = f"{self.endpoint}/v1/default/banks/{bank_id}/memories/recall"
-                payload = json.dumps({"query": query}).encode("utf-8")
-                req = urllib.request.Request(
-                    recall_url,
-                    data=payload,
-                    headers={
-                        "Authorization": f"Bearer {self.api_key}",
-                        "Content-Type": "application/json"
-                    }
-                )
-                with urllib.request.urlopen(req, timeout=1.5) as response:
-                    if response.status == 200:
-                        data = json.loads(response.read().decode("utf-8"))
-                        results = data.get("results", [])
-                        for item in results:
-                            txt = item.get("text") or item.get("content")
-                            if txt:
-                                cloud_memories.append(f"Cloud Memory: {txt}")
+                cloud_memories = self._recall_cloud_bank(bank_id, query)
             except urllib.error.HTTPError:
                 # 404 or new bank: fallback gracefully to local verified facts
                 pass
             except Exception:
                 pass
+            if self.agent_bank_id and self.agent_bank_id != self._bank_id_for(customer_id):
+                try:
+                    agent_knowledge = self._recall_cloud_bank(self.agent_bank_id, query)
+                except Exception:
+                    # A shared-bank failure must not prevent a reply from using verified local data.
+                    pass
 
         # Local episodic and fact matching
         query_lower = query.lower()
@@ -167,7 +183,8 @@ class HindsightClient:
         semantic_matches = [
             f"Fact: {k} = {v}" for k, v in bank.known_facts.items() if v
         ]
-        semantic_matches.extend(cloud_memories)
+        semantic_matches.extend(f"Cloud Memory: {text}" for text in cloud_memories)
+        semantic_matches.extend(f"Agent Knowledge: {text}" for text in agent_knowledge)
 
         return RecallResult(
             customer_id=customer_id,
@@ -176,7 +193,8 @@ class HindsightClient:
             relevant_episodes=matched_episodes,
             preferences=bank.preferences,
             reflection_insights=bank.reflection_insights,
-            semantic_matches=semantic_matches[:top_k]
+            semantic_matches=semantic_matches[:top_k],
+            agent_knowledge=agent_knowledge[:top_k]
         )
 
     def retain(self, payload: RetainPayload) -> bool:

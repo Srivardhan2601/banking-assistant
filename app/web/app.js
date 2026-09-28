@@ -47,6 +47,7 @@ const blockedPills = document.getElementById("blockedPills");
 const protectedPills = document.getElementById("protectedPills");
 const memoryTimeline = document.getElementById("memoryTimeline");
 const btnResetMemory = document.getElementById("btnResetMemory");
+const chatDialog = document.getElementById("chatDialog");
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,6 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupEventListeners() {
+  const chatLauncher = document.getElementById("chatLauncher");
+  const chatClose = document.getElementById("chatClose");
+  chatLauncher?.addEventListener("click", () => chatDialog?.showModal());
+  chatClose?.addEventListener("click", () => chatDialog?.close());
+  chatDialog?.addEventListener("click", (event) => {
+    if (event.target === chatDialog) chatDialog.close();
+  });
+
   customerSelect.addEventListener("change", (e) => {
     currentCustomerId = e.target.value;
     loadCustomer(currentCustomerId);

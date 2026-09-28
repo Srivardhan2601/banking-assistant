@@ -44,6 +44,7 @@ class RecallResult(BaseModel):
     preferences: Dict[str, Any] = Field(default_factory=dict)
     reflection_insights: List[str] = Field(default_factory=list)
     semantic_matches: List[str] = Field(default_factory=list)
+    agent_knowledge: List[str] = Field(default_factory=list)
 
 
 class RetainPayload(BaseModel):

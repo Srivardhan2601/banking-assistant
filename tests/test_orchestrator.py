@@ -94,6 +94,21 @@ class TestOrchestratorIntegration(unittest.TestCase):
         self.assertFalse(res["is_escalated"])
         self.assertIn("20,000", res["response"])
 
+    def test_combined_loan_and_refund_question_answers_both_parts_carefully(self):
+        res = orchestrator.process_message(
+            customer_id="CUST-1001",
+            customer_message="What is my loan disbursement date, and what refund period is guaranteed?",
+            channel="text",
+            detected_language="en-IN"
+        )
+
+        response_text = res["response"].lower()
+        self.assertIn("expected disbursement date", response_text)
+        self.assertIn("estimate, not a guarantee", response_text)
+        self.assertIn("refund", response_text)
+        self.assertIn("can't verify a refund period or guarantee", response_text)
+        self.assertNotIn("all verification details are complete", response_text)
+
 
 if __name__ == "__main__":
     unittest.main()

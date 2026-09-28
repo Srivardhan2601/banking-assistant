@@ -150,6 +150,7 @@ class AgentOrchestrator:
             known_facts=known_facts,
             recalled_tickets=recalled_tickets,
             reflection_insights=recall_res.reflection_insights,
+            agent_knowledge=recall_res.agent_knowledge,
             schemes=schemes,
             negative_directives=negative_directives,
             detected_language=detected_language
@@ -199,6 +200,7 @@ class AgentOrchestrator:
         known_facts: Dict[str, Any],
         recalled_tickets: List[Dict[str, Any]],
         reflection_insights: List[str],
+        agent_knowledge: List[str],
         schemes: List[Dict[str, Any]],
         negative_directives: str,
         detected_language: str
@@ -210,7 +212,10 @@ class AgentOrchestrator:
         # Construct system instruction and prompt content
         system_instruction = (
             "You are an empathetic, highly professional AI Support Specialist for a premier Indian financial services bank.\n"
-            "Use ONLY the verified customer data and schemes provided below.\n"
+            "Prioritize resolving the customer-service request. Answer every distinct part of the question.\n"
+            "Use ONLY verified customer data, the approved scheme catalog, and the retrieved Hindsight support guidance provided below.\n"
+            "Never invent policy names or codes, prices, refund periods, guarantees, account status, dates, rates, or commitments. If a requested detail is not verified, say so clearly and give a useful next step.\n"
+            "Describe future dates as expected estimates from the record, not promises.\n"
             "Always tailor your tone to the customer's preferred language and channel.\n"
             f"{negative_directives}\n"
         )
@@ -222,6 +227,9 @@ class AgentOrchestrator:
 [RECALLED HINDSIGHT INSIGHTS]
 {json.dumps(reflection_insights, indent=2)}
 
+[APPROVED CUSTOMER-SERVICE GUIDANCE FROM HINDSIGHT]
+{json.dumps(agent_knowledge, indent=2)}
+
 [AUTHORITATIVE SCHEMES CATALOG]
 {json.dumps(schemes, indent=2)}
 
@@ -229,7 +237,7 @@ class AgentOrchestrator:
 Language: {detected_language}
 Message: "{customer_message}"
 
-Provide a warm, personalized, accurate resolution. If the customer wrote in Hindi (or detected_language is hi-IN), respond naturally in clear Hindi. If in Tamil, Bengali, Telugu, Marathi, Gujarati, or Kannada, respond naturally in that language.
+Provide a warm, personalized, precise resolution. Answer each distinct part; for anything not supported by verified sources, say you cannot confirm it and provide the minimum useful next step. If the customer wrote in Hindi (or detected_language is hi-IN), respond naturally in clear Hindi. If in Tamil, Bengali, Telugu, Marathi, Gujarati, or Kannada, respond naturally in that language.
 Never ask for details already present in the profile.
 """
 
@@ -283,6 +291,7 @@ Never ask for details already present in the profile.
             customer_message=customer_message,
             sanitized_context=sanitized_context,
             known_facts=known_facts,
+            agent_knowledge=agent_knowledge,
             detected_language=detected_language
         )
 
@@ -321,6 +330,7 @@ Never ask for details already present in the profile.
         customer_message: str,
         sanitized_context: Dict[str, Any],
         known_facts: Dict[str, Any],
+        agent_knowledge: List[str],
         detected_language: str
     ) -> str:
         """Domain-grounded reasoning generator supporting 14 distinct intents across all 8 supported languages."""
@@ -465,9 +475,13 @@ Never ask for details already present in the profile.
             if active_loan:
                 loan_id = active_loan.get("loan_id")
                 scheme = active_loan.get("scheme_name")
-                amount = active_loan.get("sanctioned_amount_inr", 0)
-                exp_date = active_loan.get("expected_disbursement_date", "02-10-2026")
-                rate = active_loan.get("interest_rate_pct", 8.5)
+                loan_status = active_loan.get("status")
+                amount = active_loan.get("sanctioned_amount_inr")
+                exp_date = active_loan.get("expected_disbursement_date")
+                rate = active_loan.get("interest_rate_pct")
+                loan_status_text = (loan_status or "not recorded").replace("_", " ").lower()
+                amount_text = f"₹{amount:,.2f}" if amount is not None else "not recorded"
+                rate_text = f"{rate}% p.a." if rate is not None else "not recorded"
                 emi = active_loan.get("emi_amount_inr")
                 next_emi = active_loan.get("next_emi_date")
                 out_bal = active_loan.get("outstanding_balance_inr", 0)
@@ -487,19 +501,19 @@ Never ask for details already present in the profile.
                 else:
                     raw_response = self._multilingual(
                         detected_language,
-                        en=f"Hello {cust_name}! Regarding your {scheme} application ({loan_id}), your sanctioned amount of ₹{amount:,.2f} is approved and scheduled for disbursement on {exp_date}. The applicable interest rate is {rate}% p.a. All verification details are complete on file.",
-                        hi=f"नमस्ते {cust_name}! आपके {scheme} आवेदन ({loan_id}) के तहत आपकी स्वीकृत राशि ₹{amount:,.2f} अनुमोदित हो चुकी है और {exp_date} तक खाते में जमा कर दी जाएगी। ब्याज दर {rate}% वार्षिक है।",
-                        ta=f"வணக்கம் {cust_name}! உங்கள் {scheme} விண்ணப்பம் ({loan_id}) தொடர்பான ₹{amount:,.2f} அங்கீகரிக்கப்பட்டுள்ளது. {exp_date} அன்று வரவு வைக்கப்படும். வட்டி விகிதம் {rate}% ஆகும்.",
-                        te=f"నమస్కారం {cust_name}! మీ {scheme} దరఖాస్తు ({loan_id}) కొరకు ₹{amount:,.2f} మంజూరైంది మరియు {exp_date} నాటికి జమ చేయబడుతుంది. వర్తించే వడ్డీ రేటు {rate}%.",
-                        bn=f"নমস্কার {cust_name}! আপনার {scheme} আবেদনের ({loan_id}) অধীনে ₹{amount:,.2f} অনুমোদিত হয়েছে এবং {exp_date} তারিখের মধ্যে জমা হবে। সুদের হার {rate}%।",
-                        mr=f"नमस्कार {cust_name}! आपल्या {scheme} अर्जास ({loan_id}) ₹{amount:,.2f} मंजूर झाले असून {exp_date} पर्यंत रक्कम खात्यात जमा होईल. व्याजदर {rate}% आहे.",
-                        gu=f"નમસ્તે {cust_name}! તમારી {scheme} અરજી ({loan_id}) હેઠળ ₹{amount:,.2f} મંજૂર થઈ ગઈ છે અને {exp_date} સુધીમાં જમા કરવામાં આવશે. વ્યાજ દર {rate}% છે.",
-                        kn=f"ನಮಸ್ಕಾರ {cust_name}! ನಿಮ್ಮ {scheme} ಅರ್ಜಿಗೆ ({loan_id}) ₹{amount:,.2f} ಅನುಮೋದನೆಗೊಂಡಿದ್ದು {exp_date} ರೊಳಗೆ ಜಮೆಯಾಗಲಿದೆ. ಬಡ್ಡಿ ದರ {rate}%."
+                        en=f"Hello {cust_name}! Your record shows {scheme} application {loan_id}, status {loan_status_text}, sanctioned amount {amount_text}, expected disbursement date {exp_date or 'not recorded'} (an estimate, not a guarantee), and interest rate {rate_text}.",
+                        hi=f"नमस्ते {cust_name}! आपके रिकॉर्ड में {scheme} आवेदन ({loan_id}) का स्टेटस {loan_status_text}, स्वीकृत राशि {amount_text}, अपेक्षित वितरण तिथि {exp_date or 'दर्ज नहीं'} (अनुमान, गारंटी नहीं) और ब्याज दर {rate_text} दर्ज है।",
+                        ta=f"வணக்கம் {cust_name}! உங்கள் பதிவில் {scheme} விண்ணப்பம் ({loan_id}) நிலை {loan_status_text}, ஒப்புதல் தொகை {amount_text}, எதிர்பார்க்கப்படும் வழங்கல் தேதி {exp_date or 'பதிவில் இல்லை'} (மதிப்பீடு, உத்தரவாதம் அல்ல), வட்டி விகிதம் {rate_text} என உள்ளது.",
+                        te=f"నమస్కారం {cust_name}! మీ రికార్డులో {scheme} దరఖాస్తు ({loan_id}) స్థితి {loan_status_text}, మంజూరైన మొత్తం {amount_text}, అంచనా పంపిణీ తేదీ {exp_date or 'నమోదు కాలేదు'} (అంచనా మాత్రమే, హామీ కాదు), వడ్డీ రేటు {rate_text}గా ఉంది.",
+                        bn=f"নমস্কার {cust_name}! আপনার রেকর্ডে {scheme} আবেদন ({loan_id})-এর অবস্থা {loan_status_text}, মঞ্জুরির পরিমাণ {amount_text}, প্রত্যাশিত বিতরণের তারিখ {exp_date or 'নথিভুক্ত নেই'} (আনুমানিক, গ্যারান্টি নয়), এবং সুদের হার {rate_text} আছে।",
+                        mr=f"नमस्कार {cust_name}! आपल्या नोंदीत {scheme} अर्ज ({loan_id}) स्थिती {loan_status_text}, मंजूर रक्कम {amount_text}, अपेक्षित वितरण तारीख {exp_date or 'नोंदलेली नाही'} (अंदाज, हमी नाही), आणि व्याजदर {rate_text} आहे.",
+                        gu=f"નમસ્તે {cust_name}! તમારા રેકોર્ડમાં {scheme} અરજી ({loan_id}) સ્થિતિ {loan_status_text}, મંજૂર રકમ {amount_text}, અપેક્ષિત વિતરણ તારીખ {exp_date or 'નોંધાયેલ નથી'} (અંદાજ, ગેરંટી નહીં), અને વ્યાજ દર {rate_text} દર્શાવાયેલ છે.",
+                        kn=f"ನಮಸ್ಕಾರ {cust_name}! ನಿಮ್ಮ ದಾಖಲೆಯಲ್ಲಿ {scheme} ಅರ್ಜಿ ({loan_id}) ಸ್ಥಿತಿ {loan_status_text}, ಮಂಜೂರಾದ ಮೊತ್ತ {amount_text}, ನಿರೀಕ್ಷಿತ ವಿತರಣಾ ದಿನಾಂಕ {exp_date or 'ದಾಖಲಿಸಿಲ್ಲ'} (ಅಂದಾಜು, ಖಾತರಿ ಅಲ್ಲ), ಮತ್ತು ಬಡ್ಡಿದರ {rate_text} ಎಂದು ಇದೆ."
                     )
             else:
                 raw_response = self._multilingual(
                     detected_language,
-                    en=f"Hello {cust_name}, you do not have any active pending loan applications on file. You are eligible to apply for Mudra Loans up to ₹10 Lakhs, Stand-Up India up to ₹1 Crore, or pre-approved Personal Loans.",
+                    en=f"Hello {cust_name}, I can't verify an active loan application or your eligibility from the information available here. Please share the application type you mean, or ask a support specialist to check.",
                     hi=f"नमस्ते {cust_name}! आपके खाते पर कोई सक्रिय या लंबित ऋण आवेदन नहीं है। आप ₹10 लाख तक के मुद्रा ऋण, स्टैंड-अप इंडिया या व्यक्तिगत ऋण के लिए आवेदन कर सकते हैं।",
                     ta=f"வணக்கம் {cust_name}! உங்கள் கணக்கில் தற்போது நிலுவையில் உள்ள கடன் விண்ணப்பங்கள் எதுவும் இல்லை. நீங்கள் ₹10 லட்சம் வரையிலான முத்ரா கடன் அல்லது தனிநபர் கடனுக்கு விண்ணப்பிக்கலாம்.",
                     te=f"నమస్కారం {cust_name}! మీ ఖాతాలో ప్రస్తుతం ఎటువంటి పెండింగ్ రుణ దరఖాస్తులు లేవు. మీరు ₹10 లక్షల వరకు ముద్రా రుణాలు లేదా వ్యక్తిగత రుణాల కోసం దరఖాస్తు చేసుకోవచ్చు.",
@@ -690,6 +704,27 @@ Never ask for details already present in the profile.
                 gu=f"નમસ્તે {cust_name}! હું તમારો AI બેંકિંગ સહાયક છું. તમારા {acc_type} ({masked_acc}) ખાતા માટે બેલેન્સ, લોન સ્ટેટસ, તાજેતરના વ્યવહારો, {home_branch} શાખાની સેવાઓ કે FD વ્યાજ દર વિશે હું સહાય કરી શકું છું. આજે હું તમને કેવી રીતે મદદ કરી શકું?",
                 kn=f"ನಮಸ್ಕಾರ {cust_name}! ನಾನು ನಿಮ್ಮ AI ಬ್ಯಾಂಕಿಂಗ್ ಸಹಾಯಕ. ನಿಮ್ಮ {acc_type} ({masked_acc}) ಖಾತೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಬ್ಯಾಲೆನ್ಸ್, ಸಾಲದ ಸ್ಥಿತಿ, ಇತ್ತೀಚಿನ ವಹಿವಾಟುಗಳು, {home_branch} ಶಾಖೆಯ ಸೇವೆಗಳು ಅಥವಾ ಎಫ್‌ಡಿ ಬಡ್ಡಿ ದರಗಳ ಕುರಿತು ನಾನು ಸಹಾಯ ಮಾಡಬಲ್ಲೆ. ಇಂದು ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?"
             )
+
+        refund_terms = ("refund", "reimburse", "money back", "returned payment", "chargeback")
+        if any(term in msg_lower for term in refund_terms):
+            refund_guidance = next((item for item in agent_knowledge if any(term in item.lower() for term in refund_terms)), None)
+            refund_answer = (
+                f"According to the approved customer-service guidance: {refund_guidance}"
+                if refund_guidance and detected_language.startswith("en")
+                else self._multilingual(
+                detected_language,
+                en="Refund: I can't verify a refund period or guarantee from the approved information available here. Please share the product or transaction type so support can check the applicable terms.",
+                hi="रिफंड: उपलब्ध स्वीकृत जानकारी में रिफंड की अवधि या गारंटी की पुष्टि नहीं है। लागू शर्तें जाँचने के लिए कृपया उत्पाद या लेन-देन का प्रकार बताएँ।",
+                ta="பணத்திருப்பு: கிடைக்கும் அங்கீகரிக்கப்பட்ட தகவலில் காலவரம்பு அல்லது உத்தரவாதத்தை உறுதிப்படுத்த முடியவில்லை. பொருந்தும் விதிகளைச் சரிபார்க்க தயாரிப்பு அல்லது பரிவர்த்தனை வகையைத் தெரிவிக்கவும்.",
+                te="రీఫండ్: అందుబాటులో ఉన్న ఆమోదిత సమాచారంలో గడువు లేదా హామీని నిర్ధారించలేను. వర్తించే నిబంధనలు తెలుసుకోవడానికి ఉత్పత్తి లేదా లావాదేవీ రకాన్ని చెప్పండి.",
+                bn="রিফান্ড: উপলভ্য অনুমোদিত তথ্য থেকে সময়সীমা বা গ্যারান্টি নিশ্চিত করতে পারছি না। প্রযোজ্য শর্ত যাচাই করতে পণ্য বা লেনদেনের ধরন জানান।",
+                mr="परतावा: उपलब्ध मंजूर माहितीतून कालावधी किंवा हमीची पुष्टी करता येत नाही. लागू अटी तपासण्यासाठी उत्पादन किंवा व्यवहाराचा प्रकार सांगा.",
+                gu="રિફંડ: ઉપલબ્ધ મંજૂર માહિતીમાં સમયમર્યાદા કે ગેરંટીની પુષ્ટિ નથી. લાગુ શરતો તપાસવા ઉત્પાદન અથવા વ્યવહારનો પ્રકાર જણાવો.",
+                kn="ಮರುಪಾವತಿ: ಲಭ್ಯವಿರುವ ಅನುಮೋದಿತ ಮಾಹಿತಿಯಿಂದ ಅವಧಿ ಅಥವಾ ಖಾತರಿಯನ್ನು ದೃಢೀಕರಿಸಲಾಗುವುದಿಲ್ಲ. ಅನ್ವಯಿಸುವ ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ಉತ್ಪನ್ನ ಅಥವಾ ವಹಿವಾಟಿನ ಪ್ರಕಾರ ತಿಳಿಸಿ."
+                )
+            )
+            has_loan_question = any(term in msg_lower for term in ("loan", "mudra", "disbursement", "emi", "कर्ज", "ऋण", "लोन", "கடன்", "రుణం", "ঋণ", "લોન", "ಸಾಲ"))
+            raw_response = f"{raw_response}\n\n{refund_answer}" if has_loan_question else refund_answer
 
         # Align to user's language (preserves native Indic script untouched)
         return language_router.align_language_for_tts(raw_response, detected_language=detected_language)
