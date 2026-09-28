@@ -49,12 +49,18 @@ const memoryTimeline = document.getElementById("memoryTimeline");
 const btnResetMemory = document.getElementById("btnResetMemory");
 const chatDialog = document.getElementById("chatDialog");
 
-// Initialize
-document.addEventListener("DOMContentLoaded", () => {
-  setupSpeechRecognition();
-  loadCustomer(currentCustomerId);
+// Initialize even if this script is loaded after DOMContentLoaded (for example, from cache).
+function initializeAgentUi() {
   setupEventListeners();
-});
+  loadCustomer(currentCustomerId);
+  setupSpeechRecognition();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeAgentUi, { once: true });
+} else {
+  initializeAgentUi();
+}
 
 function setupEventListeners() {
   const chatLauncher = document.getElementById("chatLauncher");
