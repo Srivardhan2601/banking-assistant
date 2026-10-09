@@ -8,7 +8,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/styles.css">
-  <script>if (new URLSearchParams(location.search).get("chat") === "1") document.documentElement.classList.add("chat-only");</script>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('banking_assistant_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (new URLSearchParams(location.search).get("chat") === "1") document.documentElement.classList.add("chat-only");
+    })();
+  </script>
 </head>
 <body>
   <!-- Header Bar -->
@@ -52,6 +58,21 @@
       <div class="status-pill active" id="voiceStatusPill" title="Browser Native & Pluggable Audio">
         <span class="dot pulse-amber"></span>
         <span>Voice: Ready</span>
+      </div>
+      <!-- Theme Switcher -->
+      <div class="theme-switcher-group" title="Select Website Page Color Theme" role="group" aria-label="Page theme">
+        <button class="theme-btn active" data-theme-val="dark" title="Dark Theme" aria-pressed="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span>Dark</span>
+        </button>
+        <button class="theme-btn" data-theme-val="light" title="Light Theme" aria-pressed="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span>Light</span>
+        </button>
+        <button class="theme-btn" data-theme-val="navy" title="Deep Navy Theme" aria-pressed="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span>Navy</span>
+        </button>
       </div>
       <button id="btnResetMemory" class="btn-secondary btn-sm" title="Reset memories to clean mock state">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>

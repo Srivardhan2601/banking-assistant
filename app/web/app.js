@@ -51,9 +51,36 @@ const chatDialog = document.getElementById("chatDialog");
 
 // Initialize even if this script is loaded after DOMContentLoaded (for example, from cache).
 function initializeAgentUi() {
+  setupThemeSwitcher();
   setupEventListeners();
   loadCustomer(currentCustomerId);
   setupSpeechRecognition();
+}
+
+function setupThemeSwitcher() {
+  const savedTheme = localStorage.getItem("banking_assistant_theme") || "dark";
+  applyTheme(savedTheme);
+
+  const themeBtns = document.querySelectorAll(".theme-btn");
+  themeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetTheme = btn.getAttribute("data-theme-val");
+      if (targetTheme) {
+        applyTheme(targetTheme);
+      }
+    });
+  });
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("banking_assistant_theme", theme);
+
+  document.querySelectorAll(".theme-btn").forEach((btn) => {
+    const isActive = btn.getAttribute("data-theme-val") === theme;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
 }
 
 if (document.readyState === "loading") {
