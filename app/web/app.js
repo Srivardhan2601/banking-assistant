@@ -58,7 +58,8 @@ function initializeAgentUi() {
 }
 
 function setupThemeSwitcher() {
-  const savedTheme = localStorage.getItem("banking_assistant_theme") || "dark";
+  let savedTheme = localStorage.getItem("banking_assistant_theme") || "light";
+  if (savedTheme === "navy") savedTheme = "emerald";
   applyTheme(savedTheme);
 
   const themeBtns = document.querySelectorAll(".theme-btn");
