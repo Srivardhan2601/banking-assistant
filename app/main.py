@@ -6,7 +6,7 @@ and serves the interactive judge demo dashboard.
 
 from pathlib import Path
 from typing import Optional, Dict, Any
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
@@ -19,7 +19,8 @@ from app.memory import hindsight
 app = FastAPI(
     title="AI Banking Support",
     description="Compliant AI Support Agent for Financial Services with Hindsight Cloud Memory & Voice",
-    version="1.0.0"
+    version="1.0.0",
+    redirect_slashes=False
 )
 
 WEB_DIR = Path(__file__).resolve().parent / "web"
@@ -49,14 +50,22 @@ class VoiceRequest(BaseModel):
 # =============================================================================
 
 @app.get("/")
-@app.get("/api/index")
-@app.get("/api/index.py")
 def get_root():
     """Serves the interactive web demo dashboard."""
     index_file = WEB_DIR / "index.html"
     if not index_file.exists():
         raise HTTPException(status_code=404, detail="Web interface files not found.")
     return FileResponse(index_file)
+
+
+@app.api_route("/api/debug", methods=["GET", "POST"])
+def debug_endpoint(request: Request):
+    return {
+        "url_path": request.url.path,
+        "scope_path": request.scope.get("path"),
+        "query_string": str(request.scope.get("query_string", b"")),
+        "headers": dict(request.headers)
+    }
 
 
 @app.get("/static/{file_path:path}")

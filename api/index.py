@@ -10,19 +10,35 @@ from app.main import app as fastapi_app
 
 
 class VercelPathFixMiddleware:
-    """Restores the original client URL path from Vercel's x-matched-path header."""
+    """Restores the original client URL path from Vercel query params or headers."""
     def __init__(self, asgi_app):
         self.app = asgi_app
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
-            headers = dict(scope.get("headers", []))
-            matched_path = headers.get(b"x-matched-path")
-            if matched_path:
-                orig_path = matched_path.decode("utf-8")
-                orig_path = orig_path.split("?")[0]
-                if orig_path and not orig_path.startswith("/api/index"):
-                    scope["path"] = orig_path
+            query_string = scope.get("query_string", b"").decode("utf-8")
+            path_restored = False
+
+            if "path=" in query_string:
+                for param in query_string.split("&"):
+                    if param.startswith("path="):
+                        val = param.split("=", 1)[1]
+                        scope["path"] = f"/api/{val}" if not val.startswith("/") else val
+                        path_restored = True
+                        break
+
+            if not path_restored:
+                headers = dict(scope.get("headers", []))
+                matched_header = (
+                    headers.get(b"x-matched-path")
+                    or headers.get(b"x-forwarded-uri")
+                    or headers.get(b"x-vercel-matched-path")
+                )
+                if matched_header:
+                    orig_path = matched_header.decode("utf-8").split("?")[0]
+                    if orig_path and not orig_path.startswith("/api/index"):
+                        scope["path"] = orig_path
+
         await self.app(scope, receive, send)
 
 
