@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>హక్ సాథీ • Haq Saathi • हक़ साथी | Voice Legal Rights Companion</title>
+  
+  <!-- Indic & Urdu Unicode Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="lang-te">
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="logo-badge">⚖️</div>
+      <div class="brand-text">
+        <h1 id="brandTitle">హక్ సాథీ <span class="brand-sub">Haq Saathi</span></h1>
+        <p id="brandTagline">కార్మికుల వాయిస్ లీగల్ సహచరుడు • Voice Rights Companion</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions in Header -->
+    <div class="header-actions">
+      <!-- Demo Scenarios Menu -->
+      <div class="demo-dropdown">
+        <button id="demoBtn" class="btn-demo" aria-label="Demo Scenarios" title="Live Judge Scenarios">
+          <span class="icon">⚡</span> <span class="label">డెమో సినారియోలు</span>
+        </button>
+        <div id="demoMenu" class="demo-menu hidden">
+          <div class="demo-menu-header">1-Click Live Judge Scenarios</div>
+          <button class="demo-item" data-scenario="scenario_te_domestic">
+            <span class="demo-flag">🇮🇳 TE</span>
+            <div class="demo-info">
+              <strong>లక్ష్మి (ఇళ్ల పని మనిషి)</strong>
+              <span>3 నెలల జీతం బాకీ • హైదరాబాద్</span>
+            </div>
+          </button>
+          <button class="demo-item" data-scenario="scenario_hi_delivery">
+            <span class="demo-flag">🇮🇳 HI</span>
+            <div class="demo-info">
+              <strong>अमित (डिलीवरी राइडर)</strong>
+              <span>कम मजदूरी व गारंटी • वारंगल</span>
+            </div>
+          </button>
+          <button class="demo-item" data-scenario="scenario_ur_construction">
+            <span class="demo-flag">🇮🇳 UR</span>
+            <div class="demo-info">
+              <strong>محمد راشد (عمارت ساز مزدور)</strong>
+              <span>کام پر چوٹ و معاوضہ • رنگاریڈی</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- TTS Sound Toggle -->
+      <button id="soundToggleBtn" class="btn-sound" aria-label="Toggle Voice Sound" title="Sound On/Off">
+        <span id="soundIcon">🔊</span>
+      </button>
+
+      <!-- Reset / New Session -->
+      <button id="resetSessionBtn" class="btn-reset" aria-label="Start Over" title="కొత్త సంభాషణ ప్రారంభించండి">
+        <span>🔄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Spoken Consent & Safety Banner -->
+  <div class="consent-strip">
+    <div class="consent-content">
+      <span class="consent-icon">🛡️</span>
+      <span id="consentText">
+        గోప్యతా హామీ: హక్ సాథీ మీ లేబర్ సమస్యను మాత్రమే నమోదు చేస్తుంది. మేము ఆధార్ కార్డు, బ్యాంక్ వివరాలు లేదా వ్యక్తిగత చిరునామా అడగము.
+      </span>
+      <button id="whyAnswerBtn" class="btn-text-link">ఎందుకు ఈ సమాధానం? (Why this?)</button>
+    </div>
+  </div>
+
+  <main class="app-container">
+
+    <!-- Progress Strip (5 Steps) -->
+    <nav class="progress-nav" aria-label="Workflow Progress">
+      <div class="progress-bar-bg">
+        <div id="progressFill" class="progress-bar-fill" style="width: 20%;"></div>
+      </div>
+      <div class="step-nodes">
+        <div class="step-node active" data-step="1">
+          <div class="node-circle">1</div>
+          <span class="node-label" id="stepLabel1">సమస్య</span>
+        </div>
+        <div class="step-node" data-step="2">
+          <div class="node-circle">2</div>
+          <span class="node-label" id="stepLabel2">వివరాలు</span>
+        </div>
+        <div class="step-node" data-step="3">
+          <div class="node-circle">3</div>
+          <span class="node-label" id="stepLabel3">హక్కులు</span>
+        </div>
+        <div class="step-node" data-step="4">
+          <div class="node-circle">4</div>
+          <span class="node-label" id="stepLabel4">ఫిర్యాదు</span>
+        </div>
+        <div class="step-node" data-step="5">
+          <div class="node-circle">5</div>
+          <span class="node-label" id="stepLabel5">లేబర్ ఆఫీస్</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Language Selector Chips -->
+    <section class="language-section">
+      <div class="lang-selector-title" id="langSelectTitle">భాషను ఎంచుకోండి / Select Language:</div>
+      <div class="lang-chips">
+        <button class="lang-chip active" data-lang="te-IN">
+          <span class="lang-native">తెలుగు</span>
+          <span class="lang-en">Telugu</span>
+        </button>
+        <button class="lang-chip" data-lang="hi-IN">
+          <span class="lang-native">हिन्दी</span>
+          <span class="lang-en">Hindi</span>
+        </button>
+        <button class="lang-chip" data-lang="ur-IN">
+          <span class="lang-native">اردو</span>
+          <span class="lang-en">Urdu</span>
+        </button>
+        <button class="lang-chip" data-lang="en-IN">
+          <span class="lang-native">English</span>
+          <span class="lang-en">English</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4 Quick Problem Icon Cards (Single Tap without speaking) -->
+    <section class="quick-cards-section" id="quickCardsSection">
+      <div class="section-hint" id="quickCardsHint">లేదా కింద ఉన్న సమస్యను నేరుగా తాకండి:</div>
+      <div class="quick-cards-grid">
+        <button class="card-problem" data-issue="unpaid_wages">
+          <span class="card-icon">💰</span>
+          <strong class="card-title" id="cardTitle1">జీతం రాలేదు</strong>
+          <span class="card-sub" id="cardSub1">నెలల తరబడి బాకీ లేదా ఆలస్యం</span>
+        </button>
+        <button class="card-problem" data-issue="below_minimum_wage">
+          <span class="card-icon">⚖️</span>
+          <strong class="card-title" id="cardTitle2">తక్కువ కూలి</strong>
+          <span class="card-sub" id="cardSub2">కనీస వేతనం కంటే తక్కువ చెల్లింపు</span>
+        </button>
+        <button class="card-problem" data-issue="workplace_injury">
+          <span class="card-icon">🩹</span>
+          <strong class="card-title" id="cardTitle3">పనిలో గాయం</strong>
+          <span class="card-sub" id="cardSub3">ప్రమాద పరిహారం & వైద్య ఖర్చులు</span>
+        </button>
+        <button class="card-problem" data-issue="no_pf_or_benefits">
+          <span class="card-icon">🛡️</span>
+          <strong class="card-title" id="cardTitle4">పీఎఫ్ & ప్రయోజనాలు</strong>
+          <span class="card-sub" id="cardSub4">సంక్షేమ బోర్డు లేదా పీఎఫ్ రక్షణ</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Voice Centerpiece (One Big Microphone Button) -->
+    <section class="voice-centerpiece">
+      <div class="mic-container">
+        <!-- Circular Audio Waves for speaking/listening -->
+        <div class="pulse-ring ring-1"></div>
+        <div class="pulse-ring ring-2"></div>
+        
+        <button id="micBtn" class="big-mic-button" aria-label="Speak Problem" title="మాట్లాడటానికి నొక్కండి">
+          <span class="mic-icon" id="micIcon">🎙️</span>
+        </button>
+      </div>
+
+      <div class="mic-caption" id="micCaption">
+        నొక్కండి మరియు మాట్లాడండి (Tap & Speak)
+      </div>
+
+      <!-- Real-time Audio Visualizer Bars -->
+      <div class="audio-bars" id="audioBars">
+        <span class="bar bar-1"></span>
+        <span class="bar bar-2"></span>
+        <span class="bar bar-3"></span>
+        <span class="bar bar-4"></span>
+        <span class="bar bar-5"></span>
+      </div>
+
+      <!-- Replay Spoken Audio Button -->
+      <div class="replay-controls">
+        <button id="replayBtn" class="btn-replay hidden" title="మళ్లీ వినండి">
+          <span>🔊</span> <span id="replayText">మళ్లీ వినండి (Replay)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Live Transcript & Conversation Feed -->
+    <section class="chat-section">
+      <div class="chat-header">
+        <span class="chat-title" id="chatTitle">లైవ్ సంభాషణ (Live Transcript)</span>
+        <span class="status-indicator online">● ఆఫ్‌లైన్ సిద్ధంగా ఉంది</span>
+      </div>
+
+      <div class="chat-box" id="chatBox">
+        <!-- Initial Welcome Message from Assistant -->
+        <div class="message-bubble bot-message" id="initialBotMessage">
+          <div class="avatar">⚖️</div>
+          <div class="message-content">
+            <p id="welcomeGreeting">నమస్కారం! నేను హక్ సాథీ. మీ పని లేదా జీతానికి సంబంధించిన సమస్య ఏమిటి? చెప్పండి, నేను మీకు చట్టపరమైన సహాయం అందిస్తాను.</p>
+            <div class="msg-footer">
+              <span class="msg-time">ఇప్పుడే</span>
+              <button class="btn-mini-play" onclick="window.speakWelcome()">🔊 వినండి</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggested Quick-Tap Chips -->
+      <div class="suggested-chips-container" id="suggestedChipsContainer">
+        <!-- Dynamically injected chips -->
+      </div>
+
+      <!-- Manual Text Input Fallback (for noisy rooms or mic-restricted browsers) -->
+      <div class="manual-input-box">
+        <input type="text" id="manualInput" placeholder="లేదా మీ సమస్యను ఇక్కడ టైప్ చేయండి..." aria-label="Type your message">
+        <button id="sendBtn" class="btn-send" title="పంపండి">
+          <span>➤</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Result Area: Rights, Complaint PDF & Routed Labour Office -->
+    <section class="result-section hidden" id="resultSection">
+      
+      <!-- Rights Summary Card -->
+      <div class="rights-card" id="rightsCard">
+        <div class="rights-header">
+          <div class="rights-badge">
+            <span class="icon">📜</span>
+            <span id="rightsLawTitle">వేతన చెల్లింపు చట్టం రక్షణ</span>
+          </div>
+          <span class="authority-badge" id="rightsAuthority">చట్టబద్ధమైన హక్కు</span>
+        </div>
+        <p class="rights-body" id="rightsExplanation">
+          భారత చట్టం ప్రకారం కార్మికునికి సకాలంలో పూర్తి వేతనం పొందే ప్రాథమిక హక్కు ఉంది. యజమాని అక్రమంగా జీతం నిలిపివేయడం చట్టరీత్యా నేరం.
+        </p>
+        <div class="rights-disclaimer" id="rightsDisclaimer">
+          గమనిక: ఈ సమాచారం అధికారిక చట్టంపై ఆధారపడినది. నిర్ధారణ కోసం స్థానిక లేబర్ కార్యాలయాన్ని సంప్రదించండి.
+        </div>
+      </div>
+
+      <!-- Complaint Document & Download Card -->
+      <div class="complaint-card" id="complaintCard">
+        <div class="complaint-card-header">
+          <div class="complaint-id-group">
+            <span class="label">ఫిర్యాదు నంబర్:</span>
+            <span class="complaint-id" id="displayComplaintId">HAQ-2026-0001</span>
+          </div>
+          <span class="badge-status">రాతపూర్వక పత్రం సిద్ధం</span>
+        </div>
+
+        <div class="pdf-download-buttons">
+          <button id="downloadLocalPdfBtn" class="btn-download-primary">
+            <span>📥</span> <span id="downloadBtnLabel">ఫిర్యాదు పత్రం (తెలుగు PDF)</span>
+          </button>
+          <button id="downloadEngPdfBtn" class="btn-download-secondary">
+            <span>📄</span> <span>English Copy (PDF)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Routed Labour Office Card -->
+      <div class="office-card" id="officeCard">
+        <div class="office-card-header">
+          <div class="office-icon">🏢</div>
+          <div class="office-title-wrap">
+            <h3 id="officeName">డిప్యూటీ లేబర్ కమిషనర్ కార్యాలయం - హైదరాబాద్</h3>
+            <span class="jurisdiction-tag" id="officeJurisdiction">పరిధి: హైదరాబాద్ జిల్లా</span>
+          </div>
+        </div>
+
+        <div class="office-details-grid">
+          <div class="office-detail-item">
+            <span class="detail-label">📍 చిరునామా:</span>
+            <span class="detail-val" id="officeAddress">లేబర్ భవన్, ఆర్టీసీ క్రాస్ రోడ్స్, చిక్కడపల్లి, హైదరాబాద్, తెలంగాణ 500020</span>
+          </div>
+          <div class="office-detail-item">
+            <span class="detail-label">🕒 పని వేళలు:</span>
+            <span class="detail-val" id="officeHours">సోమ - శని: ఉదయం 10:30 నుండి సాయంత్రం 5:00 వరకు</span>
+          </div>
+        </div>
+
+        <div class="office-action">
+          <a id="officeCallBtn" href="tel:04027633215" class="btn-call-office">
+            <span>📞</span> <span id="callOfficeLabel">లేబర్ ఆఫీస్‌కు కాల్ చేయండి (040-27633215)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4-Step Pictorial Checklist -->
+      <div class="checklist-container">
+        <h3 class="checklist-heading" id="checklistHeading">తదుపరి ఏమి చేయాలి? (Next Steps)</h3>
+        <div class="checklist-grid" id="checklistGrid">
+          <!-- Dynamically populated steps -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Emergency Danger Alert Modal -->
+  <div id="dangerModal" class="modal-overlay hidden">
+    <div class="modal-card danger-card">
+      <div class="modal-badge danger-badge">🚨 అత్యవసర భద్రతా హెచ్చరిక</div>
+      <h2 id="dangerTitle">మీ రక్షణ మా మొదటి ప్రాధాన్యత</h2>
+      <p id="dangerMessage">
+        హింస, వేధింపులు లేదా అత్యవసర ప్రమాద పరిస్థితులలో దయచేసి వెంటనే అధికారిక అత్యవసర హెల్ప్‌లైన్‌ను సంప్రదించండి:
+      </p>
+      <div class="emergency-contacts">
+        <a href="tel:112" class="emergency-chip">
+          <span class="icon">📞</span>
+          <strong>112</strong>
+          <span>పోలీస్ & అత్యవసర సేవలు</span>
+        </a>
+        <a href="tel:181" class="emergency-chip">
+          <span class="icon">📞</span>
+          <strong>181</strong>
+          <span>మహిళా సహాయ హెల్ప్‌లైన్</span>
+        </a>
+        <a href="tel:1098" class="emergency-chip">
+          <span class="icon">📞</span>
+          <strong>1098</strong>
+          <span>చైల్డ్‌లైన్ (బాల కార్మిక నిరోధం)</span>
+        </a>
+        <a href="tel:18004253525" class="emergency-chip">
+          <span class="icon">📞</span>
+          <strong>1800-425-3525</strong>
+          <span>తెలంగాణ లేబర్ హెల్ప్‌లైన్</span>
+        </a>
+      </div>
+      <button id="closeDangerBtn" class="btn-modal-close">సరే, అర్థమైంది</button>
+    </div>
+  </div>
+
+  <!-- "Why this answer?" Grounded Knowledge Modal -->
+  <div id="whyModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📖</span> <h3>ధృవీకరించబడిన చట్టపరమైన సమాచారం (Why this Answer?)</h3>
+        </div>
+        <button id="closeWhyBtn" class="btn-close-x">✕</button>
+      </div>
+      <div class="modal-body" id="whyModalContent">
+        <p><strong>అధికారిక మూలం:</strong> Payment of Wages Act, 1936 & Code on Wages, 2019</p>
+        <p><strong>నిబంధన:</strong> వేతన కాలపరిమితి ముగిసిన తర్వాత తదుపరి నెల 7 లేదా 10వ తేదీలోపు పూర్తి వేతనాన్ని చెల్లించాలి.</p>
+        <p><strong>వర్తించే వర్గం:</strong> అసంఘటిత, గృహ, ఫ్లాట్‌ఫాం మరియు నిర్మాణ రంగ కార్మికులు.</p>
+        <p class="source-tag">గమనిక: ఈ సమాచారం `knowledge/rights.json` నుండి సేకరించబడింది. ఏ కృత్రిమ విభాగ సంఖ్యలను జోడించలేదు.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-note">
+      ⚖️ <strong>హక్ సాథీ (Haq Saathi)</strong> అనేది అసంఘటిత కార్మికుల సహాయార్థం రూపొందించబడిన సమాచార మరియు ఫిర్యాదు డ్రాఫ్టింగ్ సాధనం. ఇది న్యాయవాది కాదు.
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

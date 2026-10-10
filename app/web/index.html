@@ -3,367 +3,795 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Banking Support</title>
+  <title>AI Banking Support & Haq Saathi</title>
+  
+  <!-- Modern Clean Fonts (Plus Jakarta Sans, JetBrains Mono, Indic Noto Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/styles.css?v=7">
   <script>
     (function() {
-      let savedTheme = localStorage.getItem('banking_assistant_theme') || 'light';
-      if (savedTheme === 'navy') savedTheme = 'emerald';
+      let savedTheme = localStorage.getItem('banking_assistant_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
-      if (new URLSearchParams(location.search).get("chat") === "1") document.documentElement.classList.add("chat-only");
+      if (new URLSearchParams(location.search).get("chat") === "1") {
+        document.documentElement.classList.add("chat-only");
+      }
     })();
   </script>
 </head>
-<body>
-  <!-- Header Bar -->
-  <header class="app-header">
-    <div class="header-left">
-      <div class="logo-mark">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 21h18"/>
-          <path d="M3 10h18"/>
-          <path d="M5 6l7-3 7 3"/>
-          <path d="M4 10v11"/>
-          <path d="M20 10v11"/>
-          <path d="M8 14v4"/>
-          <path d="M12 14v4"/>
-          <path d="M16 14v4"/>
-        </svg>
-      </div>
-      <div>
-        <h1>AI BANKING SUPPORT <span class="badge-accent">FINANCIAL SERVICES</span></h1>
-        <p class="subtitle">Unified AI Support Agent with Hindsight Cloud Memory & Voice</p>
-      </div>
-    </div>
+<body data-mode="banking">
 
-    <div class="system-status-pills">
-      <div class="status-pill active" title="Hindsight Cloud Dual-Mode Memory">
-        <span class="dot pulse-blue"></span>
-        <span>Hindsight Cloud</span>
-      </div>
-      <div class="status-pill active" title="Groq Llama 3.3 Ultra-Fast Inference Engine">
-        <span class="dot pulse-amber"></span>
-        <span>Groq Llama 3.3</span>
-      </div>
-      <div class="status-pill active" title="Rule-based Deterministic Triage">
-        <span class="dot pulse-green"></span>
-        <span>Deterministic Triage</span>
-      </div>
-      <div class="status-pill active" title="Data Whitelist & Anti-Reask">
-        <span class="dot pulse-purple"></span>
-        <span>Active Guardrails</span>
-      </div>
-      <div class="status-pill active" id="voiceStatusPill" title="Browser Native & Pluggable Audio">
-        <span class="dot pulse-amber"></span>
-        <span>Voice Ready</span>
-      </div>
-      <!-- Theme Switcher -->
-      <div class="theme-switcher-group" title="Select Website Page Color Theme" role="group" aria-label="Page theme">
-        <button class="theme-btn" data-theme-val="light" title="Mercury Light - Crisp Banking" aria-pressed="false">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <span>Light</span>
-        </button>
-        <button class="theme-btn active" data-theme-val="dark" title="Obsidian Dark - Modern Tech" aria-pressed="true">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          <span>Dark</span>
-        </button>
-        <button class="theme-btn" data-theme-val="emerald" title="Emerald - Private Wealth FinTech" aria-pressed="false">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <span>Emerald</span>
-        </button>
-      </div>
-      <button id="btnResetMemory" class="btn-secondary btn-sm" title="Reset memories to clean mock state">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        Reset State
-      </button>
-    </div>
-  </header>
-
-  <!-- Quick Demo Scenarios Bar for Judges -->
-  <section class="demo-scenarios-bar">
-    <div class="scenario-label">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-      <span>Judge Demo Paths:</span>
-    </div>
-    <div class="scenario-buttons">
-      <button class="btn-scenario active" data-scenario="1" id="scenario1Btn">
-        <span class="pill-number">1</span>
-        <strong>Zero-Redundancy Memory</strong>
-        <span class="scenario-sub">Aarav (PM Mudra Loan - No Re-asking)</span>
-      </button>
-      <button class="btn-scenario" data-scenario="2" id="scenario2Btn">
-        <span class="pill-number">2</span>
-        <strong>Deterministic Escalation</strong>
-        <span class="scenario-sub">Priya (Repeat U19 UPI Failures &ge; 2)</span>
-      </button>
-      <button class="btn-scenario" data-scenario="3" id="scenario3Btn">
-        <span class="pill-number">3</span>
-        <strong>High-Value Dispute</strong>
-        <span class="scenario-sub">Vikram (₹48,500 Dispute &gt; ₹25k)</span>
-      </button>
-      <button class="btn-scenario" data-scenario="4" id="scenario4Btn">
-        <span class="pill-number">4</span>
-        <strong>Multilingual Hindi Voice</strong>
-        <span class="scenario-sub">Sunita (PM SVANidhi Micro-Credit)</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- Main 3-Column Workspace -->
-  <main class="dashboard-grid">
-
-    <!-- Column 1: Customer Profile & Hindsight Memory -->
-    <aside class="col-card memory-panel">
-      <div class="panel-header panel-header-stacked">
-        <div class="panel-title-row">
-          <div class="panel-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <h2>Customer Context</h2>
+  <!-- ==================== LOGIN PORTAL (matches media_1791622357200_d9d307d9.jpg) ==================== -->
+  <div id="loginPortalView" class="login-portal-wrapper">
+    <div class="login-portal-grid">
+      
+      <!-- LEFT COLUMN: The Login Card -->
+      <div class="login-card">
+        <!-- Brand Header -->
+        <div class="login-brand-header">
+          <div class="login-brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="10" width="18" height="11" rx="2" />
+              <line x1="7" y1="14" x2="7" y2="17" />
+              <line x1="12" y1="14" x2="12" y2="17" />
+              <line x1="17" y1="14" x2="17" y2="17" />
+              <path d="M2 10l10-7 10 7" />
+            </svg>
           </div>
-          <span class="badge-accent">Hindsight Bank</span>
+          <div class="login-brand-text">
+            <h3>AI Banking Support</h3>
+            <span>Hindsight Cloud • Groq Llama 3.3 • Voice Ready</span>
+          </div>
         </div>
-        <select id="customerSelect" class="customer-dropdown" aria-label="Customer Profile Switcher">
-          <option value="CUST-1001" selected>CUST-1001: Aarav Sharma (Mudra Loan)</option>
-          <option value="CUST-1002">CUST-1002: Priya Patel (UPI Autopay Fail)</option>
-          <option value="CUST-1003">CUST-1003: Vikram Malhotra (Dispute &gt; 25k)</option>
-          <option value="CUST-1004">CUST-1004: Sunita Devi (SVANidhi Voice)</option>
-          <option value="CUST-1005">CUST-1005: Rohan Verma (Security Alert)</option>
+
+        <!-- Capability Pills Row -->
+        <div class="login-badge-row">
+          <span class="login-badge-pill"><span class="badge-dot dot-purple"></span> Hindsight Cloud</span>
+          <span class="login-badge-pill"><span class="badge-dot dot-orange"></span> Groq Llama 3.3</span>
+          <span class="login-badge-pill"><span class="badge-dot dot-green"></span> Guardrails</span>
+        </div>
+
+        <div class="login-divider-line"></div>
+
+        <!-- Welcome Text -->
+        <div class="login-title-section">
+          <h2>Welcome back</h2>
+          <p>Sign in to your agent dashboard</p>
+        </div>
+
+        <!-- Sign In / Register Tabs -->
+        <div class="login-tab-switcher">
+          <button type="button" class="login-tab-btn active" id="tabSignIn">Sign In</button>
+          <button type="button" class="login-tab-btn" id="tabRegister">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form">
+          <!-- Account Number Field -->
+          <div class="login-field-group">
+            <label for="loginAccountNumber">Account Number</label>
+            <div class="login-input-group">
+              <span class="login-field-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="5" width="20" height="14" rx="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" />
+                </svg>
+              </span>
+              <input type="text" id="loginAccountNumber" class="login-input" placeholder="e . g .   1 0 0 1 0 0 1 0 0 1" value="" autocomplete="username">
+            </div>
+
+            <!-- Quick Persona Selection Chips -->
+            <div class="quick-login-pills" id="quickLoginPills">
+              <span class="quick-pick-label">Quick Persona:</span>
+              <button type="button" class="quick-acc-btn" data-acc="AC-5002938491" data-pin="1234">Rohan (1005)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-1002938475" data-pin="1234">Aarav (1001)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-2009182736" data-pin="1234">Priya (1002)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-3004958671" data-pin="1234">Vikram (1003)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-4001928374" data-pin="1234">Sunita (1004)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-6003928172" data-pin="1234">Ananya (1006)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-7001829304" data-pin="1234">Rajeshwari (1007)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-8002938415" data-pin="1234">Kavita (1008)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-9004827163" data-pin="1234">Farhan (1009)</button>
+              <button type="button" class="quick-acc-btn" data-acc="AC-1010928374" data-pin="1234">Meera (1010)</button>
+            </div>
+          </div>
+
+          <!-- 4-Digit Security PIN Field -->
+          <div class="login-field-group">
+            <div class="login-label-row">
+              <label for="loginPin">4-Digit Security PIN</label>
+              <a href="#" id="forgotPinLink" class="login-forgot-link">Forgot PIN?</a>
+            </div>
+            <div class="login-input-group">
+              <span class="login-field-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </span>
+              <input type="password" id="loginPin" maxlength="4" pattern="\d{4}" class="login-input" placeholder="• • • •" value="" autocomplete="current-password">
+              <button type="button" id="togglePinVisibility" class="btn-toggle-eye" title="Toggle PIN visibility">
+                <svg id="eyeIconSvg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Keep Signed In Checkbox -->
+          <div class="login-checkbox-row">
+            <label class="login-checkbox-label">
+              <input type="checkbox" id="keepSignedIn" checked>
+              <span>Keep me signed in</span>
+            </label>
+            <span id="loginStatusFeedback" class="login-feedback"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btnSubmitLogin" class="btn-login-submit">
+            <span>Sign In</span>
+          </button>
+
+          <!-- Divider -->
+          <div class="login-or-divider">
+            <span>or continue with</span>
+          </div>
+
+          <!-- Enterprise SSO Button -->
+          <button type="button" id="btnEnterpriseSso" class="btn-login-sso">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            <span>Enterprise SSO</span>
+          </button>
+
+          <!-- Security Footer Notice -->
+          <div class="login-security-notice">
+            <span>🔒 256-bit AES encrypted • TLS 1.3 • SOC 2 compliant</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- RIGHT COLUMN: Platform Capabilities & Live System Activity -->
+      <div class="platform-capabilities-col">
+        <span class="capabilities-eyebrow">PLATFORM CAPABILITIES</span>
+        <h1 class="capabilities-title">AI-Powered Banking Support</h1>
+        <p class="capabilities-desc">
+          Hindsight Cloud Memory ensures zero-redundancy customer interactions, eliminating re-asking of known facts across all channels.
+        </p>
+
+        <!-- 4 Feature Cards -->
+        <div class="features-list">
+          <div class="feature-item-row">
+            <div class="feature-icon-box icon-blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                <path d="M9 11l3 3L22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>Zero-Redundancy Memory</h4>
+              <p>Hindsight Cloud never re-asks verified facts</p>
+            </div>
+          </div>
+
+          <div class="feature-item-row">
+            <div class="feature-icon-box icon-orange">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>Multilingual Voice Support</h4>
+              <p>8 Indic + global languages with real-time TTS</p>
+            </div>
+          </div>
+
+          <div class="feature-item-row">
+            <div class="feature-icon-box icon-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>Deterministic Escalation</h4>
+              <p>Rule-based triage for ₹25k+ disputes & fraud</p>
+            </div>
+          </div>
+
+          <div class="feature-item-row">
+            <div class="feature-icon-box icon-purple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>Active Guardrails</h4>
+              <p>Data entitlement whitelist & anti-reask protection</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live System Activity Card -->
+        <div class="live-activity-card">
+          <div class="activity-card-header">
+            <span class="activity-pulse-dot"></span>
+            <span>LIVE SYSTEM ACTIVITY</span>
+          </div>
+
+          <div class="activity-rows">
+            <div class="activity-row">
+              <div class="act-left">
+                <span class="act-pill act-blocked">BLOCKED</span>
+                <span class="act-msg">internal_risk_score access denied</span>
+              </div>
+              <span class="act-time">4m ago</span>
+            </div>
+
+            <div class="activity-row">
+              <div class="act-left">
+                <span class="act-pill act-reflect">REFLECT</span>
+                <span class="act-msg">PM SVANidhi eligibility identified (Sunita)</span>
+              </div>
+              <span class="act-time">7m ago</span>
+            </div>
+
+            <div class="activity-row">
+              <div class="act-left">
+                <span class="act-pill act-escalate">ESCALATE</span>
+                <span class="act-msg">Fraud alert triggered for CUST-1005</span>
+              </div>
+              <span class="act-time">9m ago</span>
+            </div>
+
+            <div class="activity-row">
+              <div class="act-left">
+                <span class="act-pill act-retain">RETAIN</span>
+                <span class="act-msg">New loan preference stored for CUST-1002</span>
+              </div>
+              <span class="act-time">11m ago</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==================== MAIN DASHBOARD VIEW ==================== -->
+  <div id="dashboardView" class="dashboard-wrapper" style="display:none;">
+    
+    <!-- App Header -->
+    <header class="app-header">
+      <!-- Left: Logo & Title -->
+      <div class="header-left">
+        <div class="logo-box" id="appLogoBox">
+          <svg id="bankingLogoSvg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+          <span id="haqLogoEmoji" style="display:none; font-size: 1.25rem;">⚖️</span>
+        </div>
+        <div class="title-group">
+          <h1 id="appHeaderTitle">AI Banking Support</h1>
+          <span class="sub-label" id="appHeaderSubtitle">Financial services</span>
+        </div>
+      </div>
+
+      <!-- Center: Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="customer" id="tabCustomerBtn">Customer</button>
+        <button class="nav-tab" data-tab="tickets" id="tabTicketsBtn">Tickets</button>
+        <button class="nav-tab" data-tab="insights" id="tabInsightsBtn">Insights</button>
+        <button class="nav-tab" data-tab="guardrails" id="tabGuardrailsBtn">Guardrails</button>
+        
+        <!-- Haq Saathi Service Switch Tab -->
+        <button class="nav-tab service-switch-tab" id="tabHaqSwitchBtn" title="Switch to Haq Saathi Legal Rights Companion">
+          <span>⚖️ Haq Saathi</span>
+        </button>
+      </nav>
+
+      <!-- Center-Right: "Powered by ⌄" Dropdown Button -->
+      <div class="powered-by-dropdown-container">
+        <button class="btn-powered-by" id="btnPoweredBy" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="poweredByLabel">Powered by</span>
+          <span class="arrow">⌄</span>
+        </button>
+
+        <!-- Dropdown Box matching image -->
+        <div class="powered-dropdown-menu" id="poweredDropdownMenu">
+          <div class="dropdown-item">
+            <span class="status-dot dot-blue"></span>
+            <span>Hindsight Cloud</span>
+          </div>
+          <div class="dropdown-item">
+            <span class="status-dot dot-orange"></span>
+            <span>Groq Llama 3.3</span>
+          </div>
+          <div class="dropdown-item">
+            <span class="status-dot dot-green"></span>
+            <span>Deterministic triage</span>
+          </div>
+          <div class="dropdown-item">
+            <span class="status-dot dot-purple"></span>
+            <span>Active guardrails</span>
+          </div>
+          <div class="dropdown-item">
+            <span class="status-dot dot-yellow"></span>
+            <span>Voice ready</span>
+          </div>
+          <!-- Haq Saathi specific info -->
+          <div class="dropdown-item haq-only-item" style="display:none;">
+            <span class="status-dot dot-green"></span>
+            <span>Payment of Wages Act</span>
+          </div>
+          <div class="dropdown-item haq-only-item" style="display:none;">
+            <span class="status-dot dot-blue"></span>
+            <span>Telangana Labour Offices</span>
+          </div>
+          <div class="dropdown-item haq-only-item" style="display:none;">
+            <span class="status-dot dot-purple"></span>
+            <span>Unicode PDF Generator</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: User Pill, Themes & "Chat with us" Button -->
+      <div class="header-right">
+        <!-- Logged-in Customer Badge & Sign Out Button -->
+        <div class="auth-user-pill" id="authUserPill">
+          <span class="auth-avatar">👤</span>
+          <span id="authUserName">Rohan Verma</span>
+          <button type="button" id="btnSignOut" class="btn-sign-out" title="Sign out to Login Portal">Sign Out</button>
+        </div>
+
+        <!-- Theme Switchers -->
+        <div class="theme-buttons-row">
+          <button class="theme-icon-btn" data-theme-val="dark" title="Dark Theme">🌙</button>
+          <button class="theme-icon-btn" data-theme-val="light" title="Light Theme">☀️</button>
+          <button class="theme-icon-btn" data-theme-val="emerald" title="Emerald Theme">💎</button>
+        </div>
+
+        <!-- Prominent Blue "Chat with us" Button -->
+        <button class="btn-chat-with-us" id="btnChatWithUs" type="button">
+          Chat with us
+        </button>
+      </div>
+    </header>
+
+    <!-- Sub-Bar: Authenticated Customer Session Info -->
+    <section class="quick-sub-bar">
+      <!-- Banking: Logged-in Customer Session (Strictly his/her data only) -->
+      <div class="scenarios-flex authenticated-customer-bar" id="bankingCustomerBar">
+        <span class="session-secure-badge">
+          <span class="session-green-pulse"></span>
+          <span>AUTHENTICATED SESSION</span>
+        </span>
+        <span class="session-divider">|</span>
+        <span class="session-detail-item">
+          <span class="session-item-label">Account Holder:</span>
+          <strong id="sessionCustomerName">Rohan Verma</strong>
+        </span>
+        <span class="session-divider">•</span>
+        <span class="session-detail-item">
+          <span class="session-item-label">Primary Account:</span>
+          <span class="session-mono-text" id="sessionAccountNumber">AC-5002938491</span>
+        </span>
+        <span class="session-divider">•</span>
+        <span class="session-detail-item">
+          <span class="session-item-label">Branch:</span>
+          <span id="sessionBranchName">Cyber City, Gurugram</span>
+        </span>
+      </div>
+
+      <!-- Haq Saathi Scenarios -->
+      <div class="scenarios-flex" id="haqScenariosBar" style="display:none;">
+        <span class="scenarios-title" style="color:#ea580c;">Haq Saathi Worker:</span>
+        <select id="haqWorkerSelect" class="clean-select" aria-label="Worker Select">
+          <option value="WRK-201" selected>లక్ష్మి (Lakshmi) - Domestic Worker (Hyderabad)</option>
+          <option value="WRK-202">अमित (Amit) - Delivery Rider (Warangal)</option>
+          <option value="WRK-203">محمد راشد (Rashid) - Construction Worker (Rangareddy)</option>
         </select>
+        <button class="chip-scenario active" data-haq-scenario="scenario_te_domestic" id="haqScenario1Btn">🇮🇳 లక్ష్మి (3 Mos Unpaid)</button>
+        <button class="chip-scenario" data-haq-scenario="scenario_hi_delivery" id="haqScenario2Btn">🇮🇳 अमित (Min Wage)</button>
+        <button class="chip-scenario" data-haq-scenario="scenario_ur_construction" id="haqScenario3Btn">🇮🇳 راشد (Injury BOCW)</button>
       </div>
 
-      <!-- Customer Summary Card -->
-      <div class="customer-summary-card" id="customerCard">
-        <div class="cust-avatar-row">
-          <div class="avatar" id="custAvatar">AS</div>
-          <div class="cust-info">
-            <h3 id="custName">Aarav Sharma</h3>
-            <span class="cust-id" id="custId">CUST-1001</span>
-            <span class="badge-lang" id="custLang">hi-IN</span>
+      <!-- Reset Memory / State Button -->
+      <button id="btnResetMemory" class="btn-clean-reset" title="Reset State">
+        <span>🔄 Reset State</span>
+      </button>
+    </section>
+
+    <!-- Main Workspace: 3 Panels -->
+    <main class="dashboard-grid">
+
+      <!-- ==================== LEFT CARD: VERIFIED FACTS / TICKETS / INSIGHTS ==================== -->
+      <aside class="col-card card-facts">
+        <div class="card-header-row">
+          <h2 class="card-section-title" id="cardFactsTitle">VERIFIED FACTS</h2>
+          <span class="badge-pill badge-green" id="factsTabBadge">Active</span>
+        </div>
+
+        <!-- 1. Facts Pane -->
+        <div class="facts-tab-pane active" id="paneFacts">
+          <!-- Banking Mode Facts -->
+          <div class="facts-content banking-view" id="bankingFactsView">
+            <div class="fact-row">
+              <span class="fact-label">Customer name</span>
+              <span class="fact-value" id="custName">Rohan Verma</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Home branch</span>
+              <span class="fact-value" id="custBranch">Cyber City, Gurugram</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Account type</span>
+              <span class="fact-value" id="custAccountType">Advantage Savings</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Primary account</span>
+              <span class="fact-value mono" id="custAccount">AC-5002938491</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Available balance</span>
+              <span class="fact-value" id="custBalance">₹67,000.00</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Registered mobile</span>
+              <span class="fact-value mono" id="custMobile">+91-97123-99887</span>
+            </div>
+          </div>
+
+          <!-- Haq Saathi Mode Facts -->
+          <div class="facts-content haq-view" id="haqFactsView" style="display:none;">
+            <div class="fact-row">
+              <span class="fact-label">Worker name</span>
+              <span class="fact-value" id="haqWorkerName">లక్ష్మి (Lakshmi)</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Occupation / Trade</span>
+              <span class="fact-value" id="haqTrade">ఇళ్ల పని (Domestic Worker)</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Unpaid wages owed</span>
+              <span class="fact-value" id="haqAmount" style="color: #ef4444; font-weight:700;">₹18,000 [3 నెలలు బాకీ]</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Employer name</span>
+              <span class="fact-value" id="haqEmployer">రావు గారు (Banjara Hills)</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Labour jurisdiction</span>
+              <span class="fact-value mono" id="haqDistrict">Hyderabad, Telangana</span>
+            </div>
+
+            <div class="fact-row">
+              <span class="fact-label">Grounded legal right</span>
+              <span class="fact-value" id="haqRightCiting">Payment of Wages Act, 1936</span>
+            </div>
           </div>
         </div>
-        <div class="cust-details-grid">
-          <div class="detail-item">
-            <span class="label">Primary Account</span>
-            <span class="value mono" id="custAccount">AC-1002938475</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Available Balance</span>
-            <span class="value" id="custBalance">₹1,84,500.50</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Active Facility</span>
-            <span class="value" id="custLoan">MUDRA-2026-8819</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Mobile</span>
-            <span class="value mono" id="custMobile">+91-98765-43210</span>
+
+        <!-- 2. Tickets Pane -->
+        <div class="facts-tab-pane" id="paneTickets" style="display:none;">
+          <div class="tickets-container" id="ticketsListContainer">
+            <!-- Dynamically populated tickets -->
           </div>
         </div>
-      </div>
 
-      <!-- Memory Bank Navigation Tabs -->
-      <div class="memory-tabs">
-        <button class="mem-tab active" data-tab="facts">Verified Facts (Recall)</button>
-        <button class="mem-tab" data-tab="episodes">Past Tickets</button>
-        <button class="mem-tab" data-tab="reflections">Reflect Insights</button>
-      </div>
-
-      <div class="memory-tab-content" id="memTabContent">
-        <!-- Injected via JavaScript -->
-        <div class="facts-list" id="factsList"></div>
-      </div>
-    </aside>
-
-    <!-- Column 2: Conversational Assistant & Voice Bridge -->
-    <section class="col-card chat-panel">
-      <div class="panel-header">
-        <div class="panel-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <h2>Interactive Support Chat</h2>
+        <!-- 3. Insights Pane -->
+        <div class="facts-tab-pane" id="paneInsights" style="display:none;">
+          <div class="insights-container" id="insightsListContainer">
+            <!-- Dynamically populated insights -->
+          </div>
         </div>
-        <div class="chat-controls">
-          <div class="lang-selector-wrap">
-            <select id="languageSelect" class="customer-dropdown" title="Select Interaction Language">
-              <option value="auto">🌐 Auto-Detect</option>
-              <option value="hi-IN">हिन्दी (Hindi)</option>
-              <option value="en-IN">English (India)</option>
-              <option value="ta-IN">தமிழ் (Tamil)</option>
-              <option value="te-IN">తెలుగు (Telugu)</option>
-              <option value="bn-IN">বাংলা (Bengali)</option>
-              <option value="mr-IN">मराठी (Marathi)</option>
-              <option value="gu-IN">ગુજરાતી (Gujarati)</option>
-              <option value="kn-IN">ಕನ್ನಡ (Kannada)</option>
+      </aside>
+
+      <!-- ==================== CENTER CARD: CONVERSATION PANEL ==================== -->
+      <section class="col-card card-conversation">
+        <div class="card-header-row">
+          <h2 class="card-section-title" id="conversationTitle">Conversation panel</h2>
+          
+          <div class="lang-audio-controls">
+            <!-- Language Selector -->
+            <select id="languageSelect" class="mini-select" title="Language">
+              <option value="auto">🌐 Auto</option>
+              <option value="en-IN">English</option>
+              <option value="hi-IN">हिन्दी</option>
+              <option value="te-IN">తెలుగు</option>
+              <option value="ur-IN">اردو</option>
+              <option value="ta-IN">தமிழ்</option>
             </select>
-          </div>
-          <div class="tts-toggle" title="Toggle Spoken Voice Output">
-            <input type="checkbox" id="ttsToggle" checked>
-            <label for="ttsToggle">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-              <span>Auto-Speak</span>
+
+            <!-- Auto-Speak Voice Toggle -->
+            <label class="auto-speak-toggle" title="Toggle Voice Output">
+              <input type="checkbox" id="ttsToggle" checked>
+              <span>🔊</span>
             </label>
           </div>
         </div>
-      </div>
 
-      <!-- Quick Language Switcher Bar -->
-      <div class="language-quick-bar">
-        <span class="lang-bar-title">Ask in:</span>
-        <button type="button" class="lang-chip active" data-lang="auto" data-sample="">Auto</button>
-        <button type="button" class="lang-chip" data-lang="hi-IN" data-sample="मेरा मुद्रा लोन कब तक आएगा?">हिन्दी</button>
-        <button type="button" class="lang-chip" data-lang="en-IN" data-sample="What is the status of my loan application?">English</button>
-        <button type="button" class="lang-chip" data-lang="ta-IN" data-sample="என் முத்ரா கடன் எப்போது வரும்?">தமிழ்</button>
-        <button type="button" class="lang-chip" data-lang="te-IN" data-sample="నా ముద్రా రుణం ఎప్పుడు వస్తుంది?">తెలుగు</button>
-        <button type="button" class="lang-chip" data-lang="bn-IN" data-sample="আমার মুদ্রা ঋণ কবে পাব?">বাংলা</button>
-        <button type="button" class="lang-chip" data-lang="mr-IN" data-sample="माझ्या मुद्रा कर्जाची स्थिती काय आहे?">मराठी</button>
-        <button type="button" class="lang-chip" data-lang="gu-IN" data-sample="મારી મુદ્રા લોનની સ્થિતિ શું છે?">ગુજરાતી</button>
-        <button type="button" class="lang-chip" data-lang="kn-IN" data-sample="ನನ್ನ ಮುದ್ರಾ ಸಾಲದ ಸ್ಥಿತಿ ಏನು?">ಕನ್ನಡ</button>
-      </div>
+        <!-- Quick 4 Problem Chips for Haq Saathi -->
+        <div class="haq-chips-container haq-view" id="haqChipsBar" style="display:none;">
+          <button type="button" class="haq-pill-btn" data-issue="unpaid_wages">💰 జీతం రాలేదు</button>
+          <button type="button" class="haq-pill-btn" data-issue="below_minimum_wage">⚖️ తక్కువ కూలి</button>
+          <button type="button" class="haq-pill-btn" data-issue="workplace_injury">🩹 పనిలో గాయం</button>
+          <button type="button" class="haq-pill-btn" data-issue="no_pf_or_benefits">🛡️ పీఎఫ్ & రక్షణ</button>
+        </div>
 
-      <!-- Active Conversation Container -->
-      <div class="chat-messages" id="chatMessages">
-        <!-- Initial welcome bubble -->
-        <div class="message-bubble system-bubble">
-          <div class="bubble-header">
-            <span>🛡️ Guardrail Protected Session Active</span>
-            <span class="bubble-time">Just now</span>
+        <!-- Scrollable Messages Container -->
+        <div class="conversation-messages" id="chatMessages">
+          <div class="chat-placeholder-msg">
+            <p id="conversationEmptyText">Interactive conversational session active. Speak or type below, or click <strong>Chat with us</strong>.</p>
           </div>
-          <p>Verified profile loaded via <strong>Hindsight Cloud</strong>. The agent is strictly constrained from re-asking known facts and only displays approved banking data.</p>
+        </div>
+
+        <!-- Suggested Options Chips -->
+        <div class="suggested-chips-bar" id="suggestedChipsContainer" style="display:none;"></div>
+
+        <!-- Audio Waves Visualizer Bar -->
+        <div class="audio-waves-bar" id="voiceActivityBar">
+          <div class="waves-animation">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span class="voice-status-text" id="voiceStatusText">Voice ready</span>
+          <button type="button" id="replayVoiceBtn" class="btn-replay-pill" style="display:none;">🔊 Replay</button>
+        </div>
+
+        <!-- Inline Input Bar -->
+        <form id="chatForm" class="conversation-input-form">
+          <button type="button" id="micBtn" class="btn-icon-mic" title="Speak via Web Speech API">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <input type="text" id="userInput" class="conversation-input" placeholder="Type your message..." autocomplete="off">
+          <button type="submit" id="sendBtn" class="btn-icon-send" title="Send message">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </form>
+      </section>
+
+      <!-- ==================== RIGHT CARD: GUARDRAILS & INSPECTOR ==================== -->
+      <aside class="col-card card-inspector" id="cardInspector">
+        <h2 class="card-section-title" id="inspectorTitle">GUARDRAILS & INSPECTOR</h2>
+
+        <!-- Banking Mode Inspector -->
+        <div class="inspector-content banking-view" id="bankingInspectorView">
+          <!-- Escalation Verdict -->
+          <div class="inspector-block">
+            <div class="block-header">
+              <span class="block-label">Escalation triage</span>
+              <span class="badge-pill badge-green" id="escBadge">AUTONOMOUS</span>
+            </div>
+            <div class="block-detail">
+              <span class="sub-lbl">Rule:</span>
+              <span class="val-txt mono" id="escRule">None (Safe for AI)</span>
+            </div>
+            <div class="block-detail">
+              <span class="sub-lbl">Department:</span>
+              <span class="val-txt" id="escDept">—</span>
+            </div>
+          </div>
+
+          <!-- Approved Data Pills matching image green pill "loan_id" -->
+          <div class="inspector-block">
+            <span class="block-label">Surfaced entity whitelist</span>
+            <div class="pills-row" id="approvedPills">
+              <span class="pill-tag pill-green">loan_id</span>
+              <span class="pill-tag pill-green">customer_name</span>
+              <span class="pill-tag pill-green">account_number</span>
+            </div>
+          </div>
+
+          <!-- Blocked Fields -->
+          <div class="inspector-block">
+            <span class="block-label">Blocked internal fields</span>
+            <div class="pills-row" id="blockedPills">
+              <span class="pill-tag pill-red">cibil_score</span>
+              <span class="pill-tag pill-red">internal_risk</span>
+            </div>
+          </div>
+
+          <!-- Memory Activity -->
+          <div class="inspector-block">
+            <span class="block-label">Hindsight Cloud activity</span>
+            <div class="mini-timeline" id="memoryTimeline">
+              <div class="timeline-row">
+                <span class="bullet-dot"></span>
+                <span class="timeline-text">Recall(): Verified 4 facts &amp; 1 ticket</span>
+              </div>
+              <div class="timeline-row">
+                <span class="bullet-dot green"></span>
+                <span class="timeline-text">Reflect(): Advantage Savings active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Haq Saathi Mode Inspector -->
+        <div class="inspector-content haq-view" id="haqInspectorView" style="display:none;">
+          <!-- Legal State Machine Progress -->
+          <div class="inspector-block">
+            <div class="block-header">
+              <span class="block-label">Legal state machine</span>
+              <span class="badge-pill badge-orange" id="haqStateBadge">UNDERSTAND</span>
+            </div>
+            <div class="block-detail">
+              <span class="sub-lbl">State:</span>
+              <span class="val-txt mono" id="haqCurrentState">UNDERSTAND_PROBLEM</span>
+            </div>
+            <div class="block-detail">
+              <span class="sub-lbl">Questions:</span>
+              <span class="val-txt mono" id="haqQuestionCount">1 / 4 (Strict Max)</span>
+            </div>
+            <!-- Progress Fill Bar -->
+            <div class="mini-progress-bar">
+              <div id="haqProgressFill" style="width: 25%;"></div>
+            </div>
+          </div>
+
+          <!-- Routed Telangana Labour Office -->
+          <div class="inspector-block">
+            <div class="block-header">
+              <span class="block-label">🏛️ Routed Labour Office</span>
+              <span class="pill-tag pill-blue" id="haqJurisdictionBadge">Hyderabad</span>
+            </div>
+            <p id="haqOfficeName" style="font-size:0.8rem; font-weight:700; color:#fff; margin-top:4px;">Deputy Commissioner of Labour, Hyderabad Zone</p>
+            <p id="haqOfficeAddress" style="font-size:0.72rem; color:#8899b5; margin-top:2px;">T. Anjaiah Bhavan, RTC X Roads, Musheerabad - 500020</p>
+            <div style="margin-top: 8px;">
+              <a id="haqCallOfficeBtn" href="tel:+914027616233" class="btn-call-office-pill">
+                <span id="haqCallBtnLabel">📞 Call Office (+91-40-27616233)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Complaint Petition PDF Download -->
+          <div class="inspector-block">
+            <div class="block-header">
+              <span class="block-label">📄 Grievance Petition (PDF)</span>
+              <span class="pill-tag pill-green" id="haqPdfStatusBadge">READY</span>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button id="haqDownloadLocalPdf" class="btn-pdf-action btn-pdf-primary">📥 Local (PDF)</button>
+              <button id="haqDownloadEngPdf" class="btn-pdf-action btn-pdf-secondary">📄 English (PDF)</button>
+            </div>
+          </div>
+
+          <!-- 4-Step Checklist -->
+          <div class="inspector-block">
+            <div class="block-header">
+              <span class="block-label">📋 Next steps checklist</span>
+              <button id="btnWhyHaqAnswer" class="link-why-answer">Why this answer?</button>
+            </div>
+            <div class="mini-timeline" id="haqChecklistTimeline">
+              <div class="timeline-row">
+                <span class="bullet-dot orange">1</span>
+                <span class="timeline-text">Download Grievance Petition (PDF)</span>
+              </div>
+              <div class="timeline-row">
+                <span class="bullet-dot orange">2</span>
+                <span class="timeline-text">Submit to Labour Commissionerate</span>
+              </div>
+              <div class="timeline-row">
+                <span class="bullet-dot green">3</span>
+                <span class="timeline-text">Official notice issued to employer</span>
+              </div>
+              <div class="timeline-row">
+                <span class="bullet-dot green">4</span>
+                <span class="timeline-text">Recovery and settlement of dues</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </main>
+
+  </div> <!-- End Main Dashboard View -->
+
+
+  <!-- ==================== AI CHAT POP-UP DIALOG ("Chat with us") ==================== -->
+  <dialog id="chatDialog" class="chat-dialog-modal" aria-label="AI customer service chat">
+    <div class="chat-modal-header">
+      <div class="modal-title-wrap">
+        <span class="modal-dot"></span>
+        <h3 id="chatModalTitle">AI Customer Service Assistant</h3>
+      </div>
+      <button id="chatClose" class="chat-close-btn" type="button" aria-label="Close chat">✕</button>
+    </div>
+    
+    <div class="chat-modal-body">
+      <!-- Chat history inside dialog -->
+      <div class="modal-messages" id="modalChatMessages">
+        <div class="modal-bubble agent">
+          <p id="modalWelcomeText">Hello! How can I help you today with your accounts, loans, or grievance inquiries?</p>
         </div>
       </div>
 
-      <!-- Audio visualizer state bar -->
-      <div class="voice-activity-bar" id="voiceActivityBar">
-        <div class="audio-waves">
-          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        </div>
-        <span class="voice-text" id="voiceStatusText">Listening to speech...</span>
-      </div>
+      <!-- Quick Options in modal -->
+      <div class="modal-quick-options" id="modalQuickOptions" style="display:none;"></div>
 
-      <!-- Input Form -->
-      <form id="chatForm" class="chat-input-form">
-        <button type="button" id="micBtn" class="btn-mic" title="Click to speak (Web Speech API)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Input inside modal -->
+      <form id="modalChatForm" class="modal-input-form">
+        <button type="button" id="modalMicBtn" class="btn-icon-mic" title="Speak via Web Speech API">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
             <line x1="12" y1="19" x2="12" y2="23"/>
             <line x1="8" y1="23" x2="16" y2="23"/>
           </svg>
         </button>
-        <input type="text" id="userInput" class="chat-input" placeholder="Ask about loans, failed transactions, or schemes..." autocomplete="off">
-        <button type="submit" id="sendBtn" class="btn-send">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
+        <input type="text" id="modalUserInput" class="modal-input" placeholder="Type your message..." autocomplete="off">
+        <button type="submit" class="modal-send-btn">Send</button>
       </form>
-    </section>
+    </div>
+  </dialog>
 
-    <!-- Column 3: Live Compliance & Judge Inspector -->
-    <aside class="col-card inspector-panel">
-      <div class="panel-header">
-        <div class="panel-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <h2>Judge & Compliance Inspector</h2>
-        </div>
+  <!-- Floating "Chat with us" pill trigger -->
+  <button class="floating-chat-launcher" id="floatingChatLauncher" type="button" title="Chat with us">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span>Chat with us</span>
+  </button>
+
+  <!-- Emergency Danger Alert Modal -->
+  <div id="dangerModal" class="danger-modal-overlay" style="display:none;">
+    <div class="danger-modal-box">
+      <div class="danger-badge">🚨 అత్యవసర భద్రతా హెచ్చరిక (Emergency Alert)</div>
+      <h2>మీ రక్షణ మా మొదటి ప్రాధాన్యత</h2>
+      <p>హింస, వేధింపులు లేదా అత్యవసర ప్రమాద పరిస్థితులలో దయచేసి వెంటనే అధికారిక హెల్ప్‌లైన్‌ను సంప్రదించండి:</p>
+      <div class="emergency-contacts-grid">
+        <a href="tel:112" class="emer-chip"><strong>112</strong> <span>పోలీస్ &amp; అత్యవసర</span></a>
+        <a href="tel:181" class="emer-chip"><strong>181</strong> <span>మహిళా హెల్ప్‌లైన్</span></a>
+        <a href="tel:1098" class="emer-chip"><strong>1098</strong> <span>చైల్డ్‌లైన్</span></a>
+        <a href="tel:18004253525" class="emer-chip"><strong>1800-425-3525</strong> <span>లేబర్ హెల్ప్‌లైన్</span></a>
       </div>
-
-      <!-- Section 1: Escalation Verdict Card -->
-      <div class="inspector-card">
-        <div class="inspector-card-header">
-          <span class="section-title">Deterministic Escalation Monitor</span>
-          <span class="badge-verdict badge-cleared" id="escBadge">AUTONOMOUS</span>
-        </div>
-        <div class="esc-details" id="escDetails">
-          <div class="esc-row">
-            <span class="esc-lbl">Rule Triggered:</span>
-            <span class="esc-val mono" id="escRule">None (Cleared for AI)</span>
-          </div>
-          <div class="esc-row">
-            <span class="esc-lbl">Target Dept:</span>
-            <span class="esc-val" id="escDept">—</span>
-          </div>
-          <div class="esc-row">
-            <span class="esc-lbl">SLA Priority:</span>
-            <span class="esc-val" id="escPriority">—</span>
-          </div>
-          <p class="esc-reason" id="escReason">Customer inquiry within safe autonomous resolution thresholds.</p>
-        </div>
-      </div>
-
-      <!-- Section 2: Guardrail Entitlement & Anti-Redundancy -->
-      <div class="inspector-card">
-        <div class="inspector-card-header">
-          <span class="section-title">Data Entitlement Guardrail</span>
-          <span class="badge-guardrail" id="guardrailBadge">100% COMPLIANT</span>
-        </div>
-        
-        <div class="guardrail-section">
-          <span class="guard-sub">🛡️ Approved Data Surfaced:</span>
-          <div class="pills-container" id="approvedPills">
-            <span class="pill pill-green">customer_name</span>
-            <span class="pill pill-green">account_number</span>
-            <span class="pill pill-green">loan_id</span>
-          </div>
-        </div>
-
-        <div class="guardrail-section">
-          <span class="guard-sub">🚫 Blocked Internal / Unapproved:</span>
-          <div class="pills-container" id="blockedPills">
-            <span class="pill pill-red">cibil_internal_band</span>
-            <span class="pill pill-red">internal_risk_score</span>
-          </div>
-        </div>
-
-        <div class="guardrail-section">
-          <span class="guard-sub">🔒 Anti-Reask Entities Protected:</span>
-          <div class="pills-container" id="protectedPills">
-            <span class="pill pill-blue">loan_account_number</span>
-            <span class="pill pill-blue">registered_mobile</span>
-            <span class="pill pill-blue">account_number</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 3: Live Hindsight Cloud Activity Feed -->
-      <div class="inspector-card">
-        <div class="inspector-card-header">
-          <span class="section-title">Hindsight Memory Activity</span>
-          <span class="badge-subtle" id="memOpCount">2 Ops</span>
-        </div>
-        <div class="timeline" id="memoryTimeline">
-          <div class="timeline-item">
-            <div class="timeline-bullet"></div>
-            <div class="timeline-body">
-              <strong>Recall()</strong>
-              <p>Retrieved 4 verified facts & 1 loan episode.</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-bullet retain"></div>
-            <div class="timeline-body">
-              <strong>Reflect()</strong>
-              <p>Identified PM Mudra Kishore application eligibility.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <div id="chatWidget" class="chat-widget">
-    <button id="chatLauncher" class="chat-launcher" type="button" aria-haspopup="dialog" aria-controls="chatDialog">
-      <span aria-hidden="true">✦</span> Chat with us
-    </button>
-    <dialog id="chatDialog" class="chat-dialog" aria-label="AI customer service chat">
-      <div class="chat-dialog-header">
-        <span>AI Customer Service</span>
-        <button id="chatClose" class="chat-close" type="button" aria-label="Close chat">×</button>
-      </div>
-      <iframe title="AI customer service chat" src="/?chat=1"></iframe>
-    </dialog>
+      <button id="closeDangerBtn" class="btn-danger-close">సరే, అర్థమైంది (Close)</button>
+    </div>
   </div>
 
-  <script src="/static/app.js?v=2"></script>
+  <!-- "Why this answer?" Grounded Knowledge Modal -->
+  <div id="whyModal" class="danger-modal-overlay" style="display:none;">
+    <div class="why-modal-box">
+      <div class="why-header">
+        <h3>📖 ధృవీకరించబడిన చట్టపరమైన ఆధారం (Grounding Source)</h3>
+        <button id="closeWhyBtn" class="close-x">✕</button>
+      </div>
+      <div id="whyModalContent" class="why-body">
+        <p><strong>చట్టం:</strong> Payment of Wages Act, 1936 &amp; Code on Wages, 2019</p>
+        <p><strong>నిబంధన:</strong> వేతన కాలపరిమితి ముగిసిన 7 నుంచి 10 రోజుల్లోపు పూర్తి జీతం చెల్లించాలి.</p>
+        <p><strong>మూలం:</strong> `knowledge/rights.json` ఆధారంగా ధృవీకరించబడింది. ఏ కృత్రిమ సెక్షన్లు లేదా రూపాయి సంఖ్యలను కల్పించలేదు.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=8"></script>
 </body>
 </html>

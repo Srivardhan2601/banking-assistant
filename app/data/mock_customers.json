@@ -314,5 +314,296 @@
       "approved_for_display": false,
       "is_current": true
     }
+  },
+  "CUST-1006": {
+    "customer_id": "CUST-1006",
+    "customer_name": "Ananya Deshmukh",
+    "contact": {
+      "registered_mobile": "+91-98220-44556",
+      "email": "ananya.d@university.edu.in",
+      "home_branch": "Shivajinagar, Pune",
+      "preferred_language": "en-IN",
+      "preferred_channel": "text"
+    },
+    "fraud_alert_active": false,
+    "accounts": [
+      {
+        "account_number": "AC-6003928172",
+        "account_type": "Young Scholar Digital Savings",
+        "balance_inr": 42800.00,
+        "is_primary": true,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "loans": [
+      {
+        "loan_id": "EDU-2025-1082",
+        "scheme_name": "SBI Vidyalakshmi Education Loan Scheme",
+        "category": "Higher Education - B.Tech AI",
+        "sanctioned_amount_inr": 750000.00,
+        "disbursed_amount_inr": 400000.00,
+        "outstanding_balance_inr": 400000.00,
+        "status": "MORATORIUM_STUDY_PERIOD",
+        "interest_rate_pct": 8.15,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "transactions": [
+      {
+        "transaction_id": "TXN-611029",
+        "date": "2026-09-29",
+        "type": "UPI_DEBIT",
+        "amount_inr": 4500.00,
+        "merchant": "Pune University Exam Portal",
+        "status": "SUCCESS",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "support_tickets": [
+      {
+        "ticket_id": "TCK-2026-149",
+        "category": "EDUCATION_SUBSIDY",
+        "subject": "CSIS Interest Subsidy eligibility certificate submission",
+        "status": "IN_REVIEW",
+        "created_at": "2026-09-22",
+        "resolution_notes": "Income certificate under verification with Pune nodal officer.",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "internal_bank_metrics": {
+      "cibil_internal_band": "TIER-1-ACADEMIC",
+      "internal_risk_score": 765,
+      "approved_for_display": false,
+      "is_current": true
+    }
+  },
+  "CUST-1007": {
+    "customer_id": "CUST-1007",
+    "customer_name": "Rajeshwari Reddy",
+    "contact": {
+      "registered_mobile": "+91-98490-77665",
+      "email": "rajeshwari.reddy@techusa.com",
+      "home_branch": "Banjara Hills, Hyderabad",
+      "preferred_language": "te-IN",
+      "preferred_channel": "voice"
+    },
+    "fraud_alert_active": false,
+    "accounts": [
+      {
+        "account_number": "AC-7001829304",
+        "account_type": "NRE Premium Rupee Savings",
+        "balance_inr": 1845200.00,
+        "is_primary": true,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "loans": [],
+    "transactions": [
+      {
+        "transaction_id": "TXN-719203",
+        "date": "2026-09-27",
+        "type": "WIRE_INWARD_REMITTANCE",
+        "amount_inr": 418000.00,
+        "sender": "JPMorgan Chase US / Dallas Inward",
+        "status": "SUCCESS",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "support_tickets": [
+      {
+        "ticket_id": "TCK-2026-160",
+        "category": "FOREX_COMPLIANCE",
+        "subject": "FIRC (Foreign Inward Remittance Certificate) dispatch",
+        "status": "RESOLVED",
+        "created_at": "2026-09-20",
+        "resolution_notes": "Digital FIRC issued and sent to registered NRI email.",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "internal_bank_metrics": {
+      "cibil_internal_band": "TIER-1-NRI-ELITE",
+      "internal_risk_score": 850,
+      "approved_for_display": false,
+      "is_current": true
+    }
+  },
+  "CUST-1008": {
+    "customer_id": "CUST-1008",
+    "customer_name": "Kavita Chawla",
+    "contact": {
+      "registered_mobile": "+91-98140-22334",
+      "email": "kavita.chawla@retiree.in",
+      "home_branch": "Sector 17, Chandigarh",
+      "preferred_language": "hi-IN",
+      "preferred_channel": "voice"
+    },
+    "fraud_alert_active": false,
+    "accounts": [
+      {
+        "account_number": "AC-8002938415",
+        "account_type": "Senior Citizen Privilege Savings",
+        "balance_inr": 980000.00,
+        "is_primary": true,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "loans": [],
+    "transactions": [
+      {
+        "transaction_id": "TXN-820194",
+        "date": "2026-09-25",
+        "type": "FD_INTEREST_CREDIT",
+        "amount_inr": 18250.00,
+        "sender": "Quarterly Cumulative FD Payout",
+        "status": "SUCCESS",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "support_tickets": [
+      {
+        "ticket_id": "TCK-2026-172",
+        "category": "TAX_TDS",
+        "subject": "Form 15H submission confirmation for FY 2026-27",
+        "status": "RESOLVED",
+        "created_at": "2026-09-10",
+        "resolution_notes": "Form 15H acknowledged; zero TDS applied across all 3 Term Deposits.",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "internal_bank_metrics": {
+      "cibil_internal_band": "TIER-1-SENIOR-WEALTH",
+      "internal_risk_score": 820,
+      "approved_for_display": false,
+      "is_current": true
+    }
+  },
+  "CUST-1009": {
+    "customer_id": "CUST-1009",
+    "customer_name": "Farhan Akhtar Khan",
+    "contact": {
+      "registered_mobile": "+91-99350-99881",
+      "email": "farhan.khan@awadhtraders.com",
+      "home_branch": "Hazratganj, Lucknow",
+      "preferred_language": "ur-IN",
+      "preferred_channel": "voice"
+    },
+    "fraud_alert_active": false,
+    "accounts": [
+      {
+        "account_number": "AC-9004827163",
+        "account_type": "Merchant Vyapar Current Account",
+        "balance_inr": 365400.00,
+        "is_primary": true,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "loans": [
+      {
+        "loan_id": "MUDRA-TARUN-2025",
+        "scheme_name": "PMMY Tarun Enterprise Loan",
+        "category": "Retail Business Expansion",
+        "sanctioned_amount_inr": 900000.00,
+        "outstanding_balance_inr": 620000.00,
+        "status": "ACTIVE_STANDARD",
+        "interest_rate_pct": 9.20,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "transactions": [
+      {
+        "transaction_id": "TXN-930481",
+        "date": "2026-09-28",
+        "type": "POS_QR_SETTLEMENT",
+        "amount_inr": 14200.00,
+        "merchant": "Soundbox UPI Batch Settlement",
+        "status": "SETTLEMENT_HOLD",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "support_tickets": [
+      {
+        "ticket_id": "TCK-2026-188",
+        "category": "MERCHANT_SETTLEMENT",
+        "subject": "T+1 Daily QR Soundbox settlement delayed",
+        "status": "OPEN",
+        "created_at": "2026-09-28",
+        "resolution_notes": "Settlement queue batch reconciliation ongoing.",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "internal_bank_metrics": {
+      "cibil_internal_band": "TIER-2-MERCHANT",
+      "internal_risk_score": 750,
+      "approved_for_display": false,
+      "is_current": true
+    }
+  },
+  "CUST-1010": {
+    "customer_id": "CUST-1010",
+    "customer_name": "Meera Nambiar",
+    "contact": {
+      "registered_mobile": "+91-94470-88990",
+      "email": "meera.nambiar@keralafarms.org",
+      "home_branch": "Marine Drive, Kochi",
+      "preferred_language": "en-IN",
+      "preferred_channel": "text"
+    },
+    "fraud_alert_active": false,
+    "accounts": [
+      {
+        "account_number": "AC-1010928374",
+        "account_type": "Kisan Agri Super Savings",
+        "balance_inr": 88600.00,
+        "is_primary": true,
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "loans": [
+      {
+        "loan_id": "KCC-2026-904",
+        "scheme_name": "Kisan Credit Card (KCC) Crop Loan",
+        "category": "Organic Spice Farming",
+        "sanctioned_amount_inr": 300000.00,
+        "outstanding_balance_inr": 210000.00,
+        "interest_rate_pct": 4.00,
+        "status": "ACTIVE_STANDARD_PROMPT_REPAYER",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "transactions": [
+      {
+        "transaction_id": "TXN-101294",
+        "date": "2026-09-26",
+        "type": "DIRECT_BENEFIT_TRANSFER",
+        "amount_inr": 6000.00,
+        "sender": "PM Kisan Samman Nidhi Instalment",
+        "status": "SUCCESS",
+        "approved_for_display": true,
+        "is_current": true
+      }
+    ],
+    "support_tickets": [],
+    "internal_bank_metrics": {
+      "cibil_internal_band": "TIER-1-AGRI",
+      "internal_risk_score": 780,
+      "approved_for_display": false,
+      "is_current": true
+    }
   }
 }

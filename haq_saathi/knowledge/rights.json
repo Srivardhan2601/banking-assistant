@@ -1,0 +1,110 @@
+[
+  {
+    "id": "RIGHT-WAGES-01",
+    "topic": "timely_wages",
+    "title": "Timely Payment of Wages",
+    "applies_to": ["domestic_worker", "delivery_rider", "construction_worker", "gig_worker", "informal_worker"],
+    "keywords": ["salary", "wages", "unpaid", "pending", "payment", "due", "జీతం", "కూలి", "చెల్లించలేదు", "వేతనం", "वेतन", "मजदूरी", "पगार", "पैसे नहीं दिए", "تنخواہ", "مزدوری", "بقایا", "پیسے نہیں ملے"],
+    "plain_explanation": {
+      "te": "మీ పని పూర్తయిన తర్వాత లేదా నెలాఖరున 7 నుంచి 10 రోజుల్లోపు మీ యజమాని జీతం ఇవ్వాలి. జీతం ఆపడం చట్టవిరుద్ధం. (గమనిక: అధికారిక వివరాలను లేబర్ ఆఫీసు వద్ద సరిచూసుకోండి).",
+      "hi": "काम पूरा होने के बाद या महीने के 7 से 10 दिनों के भीतर मालिक को आपकी मजदूरी देनी होगी। पगार रोकना कानूनन गलत है। (नोट: सही नियमों की लेबर ऑफिस से पुष्टि करें)।",
+      "ur": "کام مکمل ہونے کے بعد یا مہینے کے 7 سے 10 دنوں کے اندر مالک کو آپ کی اجرت دینی ہوگی۔ تنخواہ روکنا غیر قانونی ہے۔ (نوٹ: درست معلومات کے لیے لیبر آفس سے تصدیق کریں)۔",
+      "en": "Your employer must pay your wages on time, within 7 to 10 days of the wage period. Withholding your earned wages is illegal under wage protection laws. (Note: verify details with the labour office)."
+    },
+    "authority": "Telangana State Labour Department & Payment of Wages Authority",
+    "source_name": "Payment of Wages Act / Code on Wages Framework",
+    "source_url_placeholder": "https://labour.telangana.gov.in/payment-of-wages",
+    "threshold_placeholder": "Wages must be cleared within 7 to 10 days of scheduled payment cycle [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  },
+  {
+    "id": "RIGHT-MINWAGE-02",
+    "topic": "minimum_wage",
+    "title": "Statutory Minimum Wages Guarantee",
+    "applies_to": ["domestic_worker", "delivery_rider", "construction_worker", "gig_worker", "informal_worker"],
+    "keywords": ["minimum wage", "less pay", "underpaid", "low salary", "తక్కువ జీతం", "కనీస వేతనం", "తక్కువ కూలి", "कम पैसे", "न्यूनतम मजदूरी", "कम वेतन", "کم اجرت", "کم مزدوری", "کم تنخواہ"],
+    "plain_explanation": {
+      "te": "ప్రభుత్వం నిర్ణయించిన కనీస వేతనం కంటే తక్కువ ఇవ్వకూడదు. రోజుకు ₹400-₹550 మధ్య కనీస కూలి వర్తిస్తుంది. (గమనిక: ఇది నమూనా మొత్తం, మీ ప్రాంతం రేటును లేబర్ ఆఫీసు వద్ద సరిచూసుకోండి).",
+      "hi": "सरकार द्वारा तय न्यूनतम दर से कम मजदूरी नहीं दी जा सकती। सामान्यतः दैनिक मजदूरी ₹400 से ₹550 के बीच तय होती है। (नोट: यह केवल उदाहरण दर है, आधिकारिक दर लेबर ऑफिस से जांचें)।",
+      "ur": "حکومت کے طے کردہ کم از کم نرخ سے کم مزدوری دینا جرم ہے۔ یومیہ مزدوری تقریباً ₹400 سے ₹550 مقرر ہوتی ہے۔ (نوٹ: یہ تخمینہ ہے، لیبر آفس سے سرکاری ریٹ معلوم کریں)۔",
+      "en": "No employer can pay less than the government-mandated minimum wage. The approximate indicative daily floor is ₹400-₹550 for informal labour. (Note: PLACEHOLDER value, verify latest notification before real use)."
+    },
+    "authority": "Minimum Wages Advisory Board & Commissioner of Labour",
+    "source_name": "Minimum Wages Act (Schedule of Employment, Telangana)",
+    "source_url_placeholder": "https://labour.telangana.gov.in/minimum-wages",
+    "threshold_placeholder": "Indicative floor wage ₹400 - ₹550 per day [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  },
+  {
+    "id": "RIGHT-INJURY-03",
+    "topic": "workplace_injury",
+    "title": "Workplace Injury & Medical Compensation",
+    "applies_to": ["construction_worker", "delivery_rider", "domestic_worker", "informal_worker"],
+    "keywords": ["injury", "accident", "hurt", "hospital", "fall", "గాయం", "ప్రమాదం", "దెబ్బ", "ఆసుపత్రి", "चोट", "दुर्घटना", "हादसा", "अस्पताल", "चोट लगी", "حادثہ", "چوٹ", "زخمی", "ہسپتال"],
+    "plain_explanation": {
+      "te": "పని ప్రదేశంలో ప్రమాదం జరిగితే పూర్తి వైద్య ఖర్చులు మరియు నష్టపరిహారం ఇవ్వాల్సిన బాధ్యత కాంట్రాక్టర్ లేదా యజమానిదే. (గమనిక: ఎంప్లాయీస్ కాంపెన్సేషన్ చట్టం కింద రక్షణ).",
+      "hi": "काम के दौरान चोट लगने या दुर्घटना होने पर अस्पताल का इलाज और मुआवजा देना मालिक या ठेकेदार की जिम्मेदारी है। (नोट: कर्मचारी मुआवजा कानून के तहत राहत मिलती है)।",
+      "ur": "کام کے دوران چوٹ لگنے یا حادثے کی صورت میں علاج کے تمام اخراجات اور معاوضہ دینا مالک یا ٹھیکیدار پر لازمی ہے۔ (نوٹ: ورکرز کمپنسیشن قانون کے تحت تحفظ حاصل ہے)۔",
+      "en": "If you are injured during work, your employer or contractor must cover complete medical treatment and statutory compensation for lost work days. (Note: verify legal claim with labour commissioner)."
+    },
+    "authority": "Commissioner for Employee Compensation, Labour Department",
+    "source_name": "Employee's Compensation Act Framework",
+    "source_url_placeholder": "https://labour.telangana.gov.in/compensation",
+    "threshold_placeholder": "100% immediate medical cost reimbursement plus disability compensation [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  },
+  {
+    "id": "RIGHT-BOCW-04",
+    "topic": "bocw_registration",
+    "title": "Construction Worker Welfare Board Benefits",
+    "applies_to": ["construction_worker"],
+    "keywords": ["construction", "building", "mason", "labour card", "భవన నిర్మాణం", "మేస్త్రీ", "కూలి కార్డు", "బోర్డు", "भवन निर्माण", "मजदूर कार्ड", "ठेकेदार", "لیبر کارڈ", "تعمیراتی کام", "مستری"],
+    "plain_explanation": {
+      "te": "భవన నిర్మాణ కార్మికులకు సంక్షేమ బోర్డు ద్వారా ఉచిత ప్రమాద బీమా, పిల్లల చదువుల సాయం, పెన్షన్ మరియు పనిముట్ల కిట్ లభిస్తాయి. (గమనిక: సంవత్సరానికి 90 రోజులు పనిచేస్తే అర్హత).",
+      "hi": "भवन निर्माण मजदूरों को वेलफेयर बोर्ड से दुर्घटना बीमा, बच्चों की पढ़ाई के लिए सहायता और पेंशन कार्ड मिलता है। (नोट: साल में 90 दिन काम करने वाले मजदूर पंजीकरण के पात्र हैं)।",
+      "ur": "تعمیراتی مزدوروں کو ویلفیئر بورڈ کی طرف سے حادثاتی بیمہ، بچوں کی تعلیم کے لیے وظیفہ اور پنشن کارڈ ملتا ہے۔ (نوٹ: سال میں 90 دن کام کرنے والے مزدور اہل ہیں)۔",
+      "en": "Registered building and construction workers are entitled to social security, accident insurance, child scholarships, and toolkits through the BOCW Welfare Board. (Requires 90 days of work in a year)."
+    },
+    "authority": "Telangana Building and Other Construction Workers Welfare Board",
+    "source_name": "BOCW Welfare Cess & Social Security Rules",
+    "source_url_placeholder": "https://bocwwb.telangana.gov.in",
+    "threshold_placeholder": "90 days annual work threshold for BOCW welfare benefits [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  },
+  {
+    "id": "RIGHT-GIG-05",
+    "topic": "gig_social_security",
+    "title": "Gig & Platform Delivery Rider Protections",
+    "applies_to": ["delivery_rider", "gig_worker"],
+    "keywords": ["delivery", "rider", "app", "id block", "zomato", "swiggy", "blinkit", "డెలివరీ", "రైడర్", "యాప్", "ఐడీ బ్లాక్", "डिलीवरी", "राइडर", "कंपनी", "आईडी बंद", "ڈیلیوری", "رائیڈر", "کمپنی"],
+    "plain_explanation": {
+      "te": "డెలివరీ రైడర్లకు సమాచారం లేకుండా ఐడీ బ్లాక్ చేయకూడదు. ప్రమాద బీమా మరియు కనీస ఆర్డర్ రేట్ పొందే హక్కు మీకు ఉంది. (గమనిక: గిగ్ వర్కర్స్ పాలసీ కింద రక్షణ).",
+      "hi": "डिलीवरी राइडर्स की आईडी बिना उचित कारण और नोटिस के बंद नहीं की जा सकती। आपको कंपनी से दुर्घटना बीमा और उचित भुगतान का अधिकार है। (नोट: प्लेटफॉर्म वर्कर नियमों के अनुसार)।",
+      "ur": "ڈیلیوری رائیڈرز کی آئی ڈی بغیر نوٹس اور وجہ کے بلاک نہیں کی جا سکتی۔ کمپنی سے حادثاتی انشورنس اور معقول معاوضہ ملنا آپ کا قانونی حق ہے۔ (نوٹ: پلیٹ فارم ورکر گائیڈلائنز کے مطابق)۔",
+      "en": "Gig and delivery platform workers are protected against arbitrary ID deactivations and are entitled to transparent pay formulas and occupational accident insurance under emerging platform guidelines."
+    },
+    "authority": "Gig & Platform Workers Welfare Authority / Labour Commissioner",
+    "source_name": "Code on Social Security & Telangana Gig Workers Welfare Framework",
+    "source_url_placeholder": "https://labour.telangana.gov.in/gig-workers",
+    "threshold_placeholder": "Notice before deactivation & occupational hazard coverage [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  },
+  {
+    "id": "RIGHT-TERMINATION-06",
+    "topic": "wrongful_termination",
+    "title": "Protection Against Wrongful Dismissal",
+    "applies_to": ["domestic_worker", "delivery_rider", "construction_worker", "informal_worker"],
+    "keywords": ["fired", "removed", "dismissed", "job lost", "తీసేశారు", "పని నుంచి తొలగించారు", "పని లేదు అన్నారు", "काम से निकाल दिया", "हटा दिया", "नौकरी गई", "کام سے نکال دیا", "برطرف"],
+    "plain_explanation": {
+      "te": "పని చేసిన రోజుల పూర్తి కూలి ఇవ్వకుండా మిమ్మల్ని అకస్మాత్తుగా తొలగించడం చట్టవిరుద్ధం. చేసిన పనికి బాకీ డబ్బులు మొత్తం ఇవ్వాల్సిందే. (గమనిక: లేబర్ ఆఫీసులో పిటిషన్ వేయవచ్చు).",
+      "hi": "बिना पूरी बकाया मजदूरी दिए काम से अचानक निकालना गलत है। जितने दिन आपने काम किया है, उसका पूरा भुगतान मालिक को करना ही होगा। (नोट: लेबर कोर्ट या अधिकारी से शिकायत संभव है)।",
+      "ur": "بغیر بقایا اجرت ادا کیے اچانک کام سے نکال دینا غیر قانونی ہے۔ جتنے دن کام کیا ہے، اس کا ایک ایک روپیہ ملنا لازمی ہے۔ (نوٹ: لیبر افسر کو شکایت کی جا سکتی ہے)۔",
+      "en": "You cannot be dismissed without settlement of your earned wages. Employers must pay all accumulated dues for every day worked before termination. (Note: claims can be filed with the Labour Officer)."
+    },
+    "authority": "District Labour Officer & Conciliation Officer",
+    "source_name": "Industrial Relations Framework / Shops & Establishments Act",
+    "source_url_placeholder": "https://labour.telangana.gov.in/grievances",
+    "threshold_placeholder": "Full wage settlement due upon cessation of employment [PLACEHOLDER - verify with official notification]",
+    "last_verified_date": "2026-01-15"
+  }
+]

@@ -26,3 +26,12 @@ htmlcov/
 
 # Logs
 *.log
+
+# Databases & Runtime Generated PDFs
+*.db
+haq_saathi/generated_pdfs/*.pdf
+
+# Vercel
+.vercel
+
+

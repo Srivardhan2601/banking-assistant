@@ -1,0 +1,146 @@
+[
+  {
+    "office_id": "TEL-HYD-01",
+    "district": "Hyderabad",
+    "office_name": "Office of the Deputy Commissioner of Labour, Hyderabad Zone",
+    "office_name_local": {
+      "te": "డిప్యూటీ లేబర్ కమిషనర్ కార్యాలయం, హైదరాబాద్",
+      "hi": "उप श्रम आयुक्त कार्यालय, हैदराबाद मंडल",
+      "ur": "ڈپٹی لیبر کمشنر دفتر، حیدرآباد زون"
+    },
+    "address": "T. Anjaiah Bhavan, RTC X Roads, Musheerabad, Hyderabad - 500020",
+    "phone": "+91-40-27616233",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Hyderabad District & GHMC Core Zone",
+    "categories_handled": ["domestic_worker", "delivery_rider", "construction_worker", "gig_worker", "informal_worker"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic official directory listing for demonstration. Confirm current officer designation prior to physical visit."
+  },
+  {
+    "office_id": "TEL-RR-02",
+    "district": "Rangareddy",
+    "office_name": "Assistant Commissioner of Labour, Rangareddy District",
+    "office_name_local": {
+      "te": "సహాయ లేబర్ కమిషనర్ కార్యాలయం, రంగారెడ్డి జిల్లా",
+      "hi": "सहायक श्रम आयुक्त कार्यालय, रंगारेड्डी जिला",
+      "ur": "اسسٹنٹ لیبر کمشنر دفتر، رنگا ریڈی ضلع"
+    },
+    "address": "Collectorate Complex, Lakdikapul / Kongara Kalan, Rangareddy - 501510",
+    "phone": "+91-40-24754321",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Rangareddy, Shamshabad, Rajendranagar, Maheshwaram",
+    "categories_handled": ["domestic_worker", "construction_worker", "delivery_rider", "gig_worker", "informal_worker"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-MED-03",
+    "district": "Medchal-Malkajgiri",
+    "office_name": "District Labour Officer, Medchal-Malkajgiri",
+    "office_name_local": {
+      "te": "జిల్లా లేబర్ అధికారి కార్యాలయం, మేడ్చల్-మల్కాజిగిరి",
+      "hi": "जिला श्रम अधिकारी कार्यालय, मेडचल-मलकाजगिरि",
+      "ur": "ضلعی لیبر آفیسر دفتر، میڈچل۔ملکاجگری"
+    },
+    "address": "Integrated District Offices Complex, Keesara, Medchal - 501301",
+    "phone": "+91-40-27123987",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Kukatpally, Uppal, Medchal, Malkajgiri",
+    "categories_handled": ["delivery_rider", "construction_worker", "domestic_worker", "gig_worker", "informal_worker"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-WAR-04",
+    "district": "Warangal",
+    "office_name": "Deputy Commissioner of Labour, Warangal Region",
+    "office_name_local": {
+      "te": "డిప్యూటీ లేబర్ కమిషనర్ కార్యాలయం, వరంగల్ / హనుమకొండ",
+      "hi": "उप श्रम आयुक्त कार्यालय, वारंगल / हनमकोंडा",
+      "ur": "ڈپٹی لیبر کمشنر دفتر، ورنگل / ہنمکنڈہ"
+    },
+    "address": "Near Subedari Police Station, Hanamkonda, Warangal - 506001",
+    "phone": "+91-870-2577661",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Warangal Urban, Warangal Rural, Jangaon, Mahabubabad",
+    "categories_handled": ["construction_worker", "domestic_worker", "informal_worker", "delivery_rider"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-NIZ-05",
+    "district": "Nizamabad",
+    "office_name": "Assistant Commissioner of Labour, Nizamabad",
+    "office_name_local": {
+      "te": "సహాయ లేబర్ కమిషనర్ కార్యాలయం, నిజామాబాద్",
+      "hi": "सहायक श्रम आयुक्त कार्यालय, निजामाबाद",
+      "ur": "اسسٹنٹ لیبر کمشنر دفتر، نظام آباد"
+    },
+    "address": "Collectorate Road, Pragathi Bhavan Area, Nizamabad - 503001",
+    "phone": "+91-8462-224411",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Nizamabad, Armoor, Bodhan, Kamareddy",
+    "categories_handled": ["construction_worker", "domestic_worker", "informal_worker"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-KAR-06",
+    "district": "Karimnagar",
+    "office_name": "District Labour Officer, Karimnagar",
+    "office_name_local": {
+      "te": "జిల్లా లేబర్ అధికారి కార్యాలయం, కరీంనగర్",
+      "hi": "जिला श्रम अधिकारी कार्यालय, करीमनगर",
+      "ur": "ضلعی لیبر آفیسر دفتر، کریم نگر"
+    },
+    "address": "Opp. Civil Supplies Bhavan, Collectorate Complex, Karimnagar - 505001",
+    "phone": "+91-878-2243555",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Karimnagar, Peddapalli, Jagtial, Sircilla",
+    "categories_handled": ["construction_worker", "domestic_worker", "informal_worker", "delivery_rider"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-KHM-07",
+    "district": "Khammam",
+    "office_name": "Assistant Commissioner of Labour, Khammam",
+    "office_name_local": {
+      "te": "సహాయ లేబర్ కమిషనర్ కార్యాలయం, ఖమ్మం",
+      "hi": "सहायक श्रम आयुक्त कार्यालय, खम्मम",
+      "ur": "اسسٹنٹ لیبر کمشنر دفتر، کھمم"
+    },
+    "address": "Zilla Parishad Road, Near Collector Office, Khammam - 507001",
+    "phone": "+91-8742-232144",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:30 AM - 5:00 PM (Monday to Saturday)",
+    "jurisdiction": "Khammam & Bhadradri Kothagudem",
+    "categories_handled": ["construction_worker", "domestic_worker", "informal_worker"],
+    "is_state_fallback": false,
+    "sample_entry_disclaimer": "Realistic sample entry for demonstration."
+  },
+  {
+    "office_id": "TEL-STATE-FALLBACK",
+    "district": "All Districts (Telangana State)",
+    "office_name": "Commissioner of Labour (State Headquarters & Grievance Cell)",
+    "office_name_local": {
+      "te": "లేబర్ కమిషనర్ ప్రధాన కార్యాలయం, తెలంగాణ ప్రభుత్వం",
+      "hi": "श्रम आयुक्त मुख्य कार्यालय (शिकायत निवारण प्रकोष्ठ), तेलंगाना",
+      "ur": "کمشنر برائے محنت، مرکزی ریاستی دفتر، تلنگانہ حکومت"
+    },
+    "address": "T. Anjaiah Bhavan, RTC X Roads, Musheerabad, Hyderabad - 500020",
+    "phone": "+91-40-27616233",
+    "helpline": "1800-425-3525",
+    "working_hours": "10:00 AM - 5:30 PM (All working days)",
+    "jurisdiction": "State of Telangana (Statewide Escalation & Conciliation)",
+    "categories_handled": ["domestic_worker", "delivery_rider", "construction_worker", "gig_worker", "informal_worker"],
+    "is_state_fallback": true,
+    "sample_entry_disclaimer": "Default state headquarters fallback authority."
+  }
+]
