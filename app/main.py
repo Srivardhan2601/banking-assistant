@@ -58,28 +58,7 @@ def get_root():
     return FileResponse(index_file)
 
 
-@app.api_route("/api/debug", methods=["GET", "POST"])
-def debug_endpoint(request: Request):
-    return {
-        "url_path": request.url.path,
-        "scope_path": request.scope.get("path"),
-        "query_string": str(request.scope.get("query_string", b"")),
-        "headers": dict(request.headers)
-    }
 
-
-@app.exception_handler(404)
-async def custom_404_handler(request: Request, exc):
-    return JSONResponse(
-        status_code=404,
-        content={
-            "error": "not_found",
-            "received_url_path": request.url.path,
-            "received_scope_path": request.scope.get("path"),
-            "received_query_string": str(request.scope.get("query_string", b"")),
-            "received_headers": dict(request.headers)
-        }
-    )
 
 
 @app.get("/static/{file_path:path}")
