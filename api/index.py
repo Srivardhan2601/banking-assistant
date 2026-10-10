@@ -18,6 +18,7 @@ class VercelFastAPIBridge(FastAPI):
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
+            scope["root_path"] = ""
             qs = scope.get("query_string", b"").decode("utf-8")
             if "path=" in qs:
                 for part in qs.split("&"):
