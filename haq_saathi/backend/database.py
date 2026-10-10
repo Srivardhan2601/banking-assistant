@@ -7,10 +7,14 @@ import sqlite3
 import json
 from pathlib import Path
 from typing import Optional, List, Dict, Any
+import os
+import tempfile
 from .models import ComplaintRecord
 
-
-DB_PATH = Path(__file__).resolve().parent.parent / "haq_saathi.db"
+if os.environ.get("VERCEL") or not os.access(Path(__file__).resolve().parent.parent, os.W_OK):
+    DB_PATH = Path(tempfile.gettempdir()) / "haq_saathi.db"
+else:
+    DB_PATH = Path(__file__).resolve().parent.parent / "haq_saathi.db"
 
 
 class ComplaintDatabase:
@@ -21,7 +25,10 @@ class ComplaintDatabase:
         self._init_db()
 
     def _get_connection(self):
-        conn = sqlite3.connect(str(self.db_path))
+        try:
+            conn = sqlite3.connect(str(self.db_path))
+        except Exception:
+            conn = sqlite3.connect(":memory:")
         conn.row_factory = sqlite3.Row
         return conn
 

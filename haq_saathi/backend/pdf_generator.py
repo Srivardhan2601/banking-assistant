@@ -16,8 +16,19 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-import arabic_reshaper
-from bidi.algorithm import get_display
+try:
+    import arabic_reshaper
+    from bidi.algorithm import get_display
+except Exception:
+    arabic_reshaper = None
+    get_display = lambda t: t
+
+import tempfile
+
+if os.environ.get("VERCEL") or not os.access(Path(__file__).resolve().parent.parent, os.W_OK):
+    DEFAULT_PDF_DIR = Path(tempfile.gettempdir()) / "haq_saathi" / "generated_pdfs"
+else:
+    DEFAULT_PDF_DIR = Path(__file__).resolve().parent.parent / "generated_pdfs"
 
 FONTS_DIR = Path(__file__).resolve().parent / "fonts"
 
@@ -89,8 +100,11 @@ class ComplaintPDFGenerator:
 
     def __init__(self, output_dir: Optional[Path] = None):
         _init_fonts()
-        self.output_dir = output_dir or (Path(__file__).resolve().parent.parent / "generated_pdfs")
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.output_dir = output_dir or DEFAULT_PDF_DIR
+        try:
+            self.output_dir.mkdir(parents=True, exist_ok=True)
+        except Exception:
+            self.output_dir = Path(tempfile.gettempdir())
 
     def generate(self, complaint: Dict[str, Any], lang: str = "te-IN") -> str:
         """
