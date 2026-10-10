@@ -49,12 +49,23 @@ class VoiceRequest(BaseModel):
 # =============================================================================
 
 @app.get("/")
+@app.get("/api/index")
+@app.get("/api/index.py")
 def get_root():
     """Serves the interactive web demo dashboard."""
     index_file = WEB_DIR / "index.html"
     if not index_file.exists():
         raise HTTPException(status_code=404, detail="Web interface files not found.")
     return FileResponse(index_file)
+
+
+@app.get("/static/{file_path:path}")
+def get_static_file(file_path: str):
+    """Explicit static asset route for serverless hosting."""
+    target = WEB_DIR / file_path
+    if not target.exists() or not target.is_file():
+        raise HTTPException(status_code=404, detail="Asset not found")
+    return FileResponse(target)
 
 
 class LoginRequest(BaseModel):
